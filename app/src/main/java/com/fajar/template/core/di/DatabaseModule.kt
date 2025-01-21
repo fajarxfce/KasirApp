@@ -2,8 +2,8 @@ package com.fajar.template.core.di
 
 import android.content.Context
 import androidx.room.Room
-import com.fajar.template.core.data.source.local.room.ExampleDao
-import com.fajar.template.core.data.source.local.room.ExampleDatabase
+import com.fajar.template.core.data.source.local.room.CashierDatabase
+import com.fajar.template.core.data.source.local.room.UserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,11 +17,11 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(@ApplicationContext context: Context): ExampleDatabase {
+    fun provideDatabase(@ApplicationContext context: Context): CashierDatabase {
         return Room.databaseBuilder(
             context,
-            ExampleDatabase::class.java,
-            "example_database"
+            CashierDatabase::class.java,
+            "cashier_db"
         )
             .fallbackToDestructiveMigration()
             .build(
@@ -29,6 +29,6 @@ class DatabaseModule {
     }
 
     @Provides
-    fun provideExampleDao(database: ExampleDatabase): ExampleDao =
-        database.exampleDao()
+    fun provideUserDao(database: CashierDatabase): UserDao =
+        database.userDao()
 }

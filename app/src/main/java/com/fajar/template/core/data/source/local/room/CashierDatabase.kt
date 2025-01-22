@@ -4,9 +4,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.fajar.template.core.data.source.local.entity.UserEntity
 
-@Database(entities = [
-    UserEntity::class,
-    ],
+@Database(
+    entities = [
+        UserEntity::class
+               ],
     version = 1,
     exportSchema = false)
 abstract class CashierDatabase : RoomDatabase() {

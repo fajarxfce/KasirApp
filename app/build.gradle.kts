@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation("androidx.fragment:fragment-ktx:1.8.3")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -83,6 +84,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.activity)
     ksp(libs.room.compiler)
+    ksp("com.google.devtools.ksp:symbol-processing-api:1.0.12")
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.ktx)

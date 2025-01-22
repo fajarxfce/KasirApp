@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.fajar.template.R
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.User
@@ -35,6 +36,7 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmail.text.toString()
             val password = binding.etPassword.text.toString()
+            findNavController().navigate(R.id.action_loginFragment_to_homeFragment2)
             viewModel.login(
                 email,
                 password

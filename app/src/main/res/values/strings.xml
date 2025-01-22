@@ -9,4 +9,7 @@
     <string name="login">Login</string>
     <string name="splashscreen">SplashScreen</string>
     <string name="register">Register</string>
+    <string name="title_login">Login</string>
+    <string name="transaksi">Transaksi</string>
+    <string name="product">Product</string>
 </resources>

@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "My Template"
+rootProject.name = "Pajar Template"
 include(":app")
  

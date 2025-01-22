@@ -1,7 +1,9 @@
 package com.fajar.template.di
 
-import com.fajar.template.core.domain.usecase.AuthInteractor
-import com.fajar.template.core.domain.usecase.AuthUseCase
+import com.fajar.template.core.domain.usecase.UserInteractor
+import com.fajar.template.core.domain.usecase.UserUseCase
+import com.fajar.template.core.domain.usecase.ProductInteractor
+import com.fajar.template.core.domain.usecase.ProductUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -13,5 +15,9 @@ import dagger.hilt.android.scopes.ViewModelScoped
 abstract class AppModule {
     @Binds
     @ViewModelScoped
-    abstract fun provideAuthUseCase(authInteractor: AuthInteractor): AuthUseCase
+    abstract fun provideUserUseCase(userInteractor: UserInteractor): UserUseCase
+
+    @Binds
+    @ViewModelScoped
+    abstract fun provideProductUseCase(productInteractor: ProductInteractor): ProductUseCase
 }

@@ -2,11 +2,11 @@ package com.fajar.template.core.domain.usecase
 
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.User
-import com.fajar.template.core.domain.repository.IAuthRespository
+import com.fajar.template.core.domain.repository.IUserRespository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class AuthInteractor @Inject constructor(private val repository: IAuthRespository): AuthUseCase {
+class UserInteractor @Inject constructor(private val repository: IUserRespository): UserUseCase {
     override fun login(email: String, password: String): Flow<Resource<User>> {
         return repository.login(email, password)
     }

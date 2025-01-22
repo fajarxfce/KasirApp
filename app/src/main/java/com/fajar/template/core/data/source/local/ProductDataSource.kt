@@ -1,0 +1,28 @@
+package com.fajar.template.core.data.source.local
+
+import com.fajar.template.core.data.source.local.entity.ProductEntity
+import com.fajar.template.core.data.source.local.room.ProductDao
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class ProductDataSource @Inject constructor(private val productDao: ProductDao) {
+    fun getProducts() = flow { emit(productDao.getProducts()) }
+    fun getProductById(id: Int) = flow { emit(productDao.getProduct(id)) }
+    fun addProduct(product: ProductEntity) = flow {
+        productDao.insertProduct(product)
+        emit(Unit)
+    }
+
+    fun updateProduct(product: ProductEntity) = flow {
+        productDao.updateProduct(product)
+        emit(Unit)
+    }
+
+    fun deleteProduct(id: Int) = flow {
+        productDao.deleteProduct(id)
+        emit(Unit)
+    }
+
+}

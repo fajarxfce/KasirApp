@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.fajar.template.R
+import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.User
 import com.fajar.template.core.domain.usecase.AuthUseCase
 import com.fajar.template.databinding.FragmentLoginBinding
@@ -32,18 +33,38 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnLogin.setOnClickListener {
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
             viewModel.login(
-                binding.etEmail.text.toString(),
-                binding.etPassword.text.toString()
-            )
-        }
+                email,
+                password
+            ){
+                when(it){
+                    is Resource.Success -> {
+                        Log.d(TAG, "onViewCreated: ${it.data?.name}")
+                    }
+                    is Resource.Error -> {
+                        Log.d(TAG, "onViewCreated: ${it.message}")
+                    }
 
-        val user = User(1, "Fajar", "anjay@gmail.com", "123456")
-        lifecycleScope.launch {
-            viewModel.registerUser(user).collect{
-                Log.d(TAG, "onViewCreated: $it")
+                    else -> {
+                        Log.d(TAG, "onViewCreated: unknown error")
+                    }
+                }
             }
         }
+        var id = 4
+        binding.btnRegister.setOnClickListener {
+            val email = binding.etEmail.text.toString()
+            val password = binding.etPassword.text.toString()
+            val user = User(null, "Fajar", email, password)
+            viewModel.registerUser(user){
+                Log.d(TAG, "onViewCreated: $it")
+            }
+            id++
+        }
+
+
     }
 
     companion object {

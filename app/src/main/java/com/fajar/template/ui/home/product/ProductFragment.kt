@@ -8,7 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.fajar.template.R
+import com.fajar.template.core.adapter.ProductAdapter
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.databinding.FragmentProductBinding
@@ -20,6 +22,7 @@ class ProductFragment : Fragment() {
 
     private val binding by lazy { FragmentProductBinding.inflate(layoutInflater) }
     private val viewModel by viewModels<ProductViewModel>()
+    private lateinit var adapter: ProductAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,46 +33,42 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getProducts(
-            onLoading = {
-                Log.d(TAG, "getProducts: Loading")
-            },
-            onSuccess = {
-                it.forEach {
-                    Log.d(TAG, "getProducts: ${it.name}")
+        binding.rvProduct.layoutManager = LinearLayoutManager(requireContext())
+        adapter = ProductAdapter(emptyList())
+        binding.rvProduct.adapter = adapter
+        viewModel.products.observe(viewLifecycleOwner) { results ->
+            when (results) {
+                is Resource.Loading -> {
+                    Log.d(TAG, "anjay: Loading")
                 }
-            },
-            onError = {
-                Log.d(TAG, "getProducts: $it")
-            }
-        )
-        var no = 1
-        binding.btnAddProduct.setOnClickListener {
 
-            val product = Product(
-                name = "Product $no",
-                description = "Description 1",
-                image = "https://via.placeholder.com/150",
-                price = 10000.0,
-                stock = 10
-            )
-            viewModel.addProduct(product,
-                onLoading = {
-                    Log.d(TAG, "addProduct: Loading")
-                },
-                onSuccess = {
-                    Log.d(TAG, "addProduct: Success")
-                    no++
-                },
-                onError = {
-                    Log.d(TAG, "addProduct: $it")
+                is Resource.Success -> {
+                    results.data?.forEach {
+                        Log.d(TAG, "anjay: ${it.name}")
+                    }
+                    adapter.updateData(results.data?: emptyList())
+                    binding.rvProduct.adapter = adapter
                 }
-            )
+
+                is Resource.Error -> {
+                    Log.d(TAG, "anjay: ${results.message}")
+                }
+
+            }
         }
 
-
+        var no = 1
+        binding.btnAddProduct.setOnClickListener {
+            val product = Product(name = "Product $no", price = 1000.0, stock = 10, description = "Description", image = "https://via.placeholder.com/150")
+            viewModel.addProduct(product, onLoading = {
+                Log.d(TAG, "onViewCreated: Loading")
+            }, onSuccess = {
+                Log.d(TAG, "onViewCreated: Success")
+            }, onError = {
+                Log.d(TAG, "onViewCreated: $it")
+            })
+        }
     }
-
     companion object {
         private const val TAG = "ProductFragment"
     }

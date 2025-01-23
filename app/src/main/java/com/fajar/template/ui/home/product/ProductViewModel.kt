@@ -1,6 +1,7 @@
 package com.fajar.template.ui.home.product
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.Product
@@ -11,6 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductViewModel @Inject constructor(private val productUseCase: ProductUseCase) : ViewModel() {
+    val products = productUseCase.getProducts().asLiveData()
     fun addProduct(product: Product, onLoading: () -> Unit, onSuccess: () -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             productUseCase.addProduct(product).collect { resource ->

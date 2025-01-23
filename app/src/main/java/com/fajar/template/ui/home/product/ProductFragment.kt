@@ -14,6 +14,7 @@ import com.fajar.template.core.adapter.ProductAdapter
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.databinding.FragmentProductBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -33,29 +34,7 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvProduct.layoutManager = LinearLayoutManager(requireContext())
-        adapter = ProductAdapter(emptyList())
-        binding.rvProduct.adapter = adapter
-        viewModel.products.observe(viewLifecycleOwner) { results ->
-            when (results) {
-                is Resource.Loading -> {
-                    Log.d(TAG, "anjay: Loading")
-                }
 
-                is Resource.Success -> {
-                    results.data?.forEach {
-                        Log.d(TAG, "anjay: ${it.name}")
-                    }
-                    adapter.updateData(results.data ?: emptyList())
-                    binding.rvProduct.adapter = adapter
-                }
-
-                is Resource.Error -> {
-                    Log.d(TAG, "anjay: ${results.message}")
-                }
-
-            }
-        }
 
         binding.btnAddProduct.setOnClickListener {
             val product = Product(
@@ -66,7 +45,11 @@ class ProductFragment : Fragment() {
                 1000.0,
                 10
             )
-            viewModel.addProduct(product)
+            viewModel.addProduct(product,
+                onLoading = {},
+                onSuccess = {Snackbar.make(view, "Success", Snackbar.LENGTH_SHORT).show()},
+                onError = {}
+                )
         }
     }
 

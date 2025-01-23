@@ -11,22 +11,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductViewModel @Inject constructor(private val productUseCase: ProductUseCase) : ViewModel() {
+class ProductViewModel @Inject constructor(private val productUseCase: ProductUseCase) :
+    ViewModel() {
 
     val products = productUseCase.getProducts().asLiveData()
 
-    fun addProduct(product: Product) {
+    fun addProduct(
+        product: Product,
+        onLoading: () -> Unit,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
         viewModelScope.launch {
             productUseCase.addProduct(product).collect { resource ->
                 when (resource) {
                     is Resource.Loading -> {
-                        // Show loading state
+                        onLoading()
                     }
+
                     is Resource.Success -> {
-                        // Handle success
+                        onSuccess()
                     }
+
                     is Resource.Error -> {
-                        // Show error message
+                        onError()
                     }
                 }
             }

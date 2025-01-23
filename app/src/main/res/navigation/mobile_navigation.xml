@@ -37,12 +37,17 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_productFragment"
-            app:destination="@id/productFragment" />
+            android:id="@+id/action_homeFragment_to_productManagementFragment"
+            app:destination="@id/productManagementFragment" />
     </fragment>
     <fragment
         android:id="@+id/productFragment"
         android:name="com.fajar.template.ui.home.product.ProductFragment"
         android:label="@string/product"
         tools:layout="@layout/fragment_product" />
+    <fragment
+        android:id="@+id/productManagementFragment"
+        android:name="com.fajar.template.ui.home.product.ProductManagementFragment"
+        android:label="@string/management_product"
+        tools:layout="@layout/fragment_product_management" />
 </navigation>

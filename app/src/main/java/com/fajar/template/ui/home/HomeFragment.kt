@@ -47,7 +47,7 @@ class HomeFragment : Fragment() {
             override fun onClick(menu: Menu) {
                 when (menu.name) {
                     "Product" -> {
-                        findNavController().navigate(R.id.action_homeFragment_to_productFragment)
+                        findNavController().navigate(R.id.action_homeFragment_to_productManagementFragment)
                     }
                     "Menu 2" -> {
                         Log.d(TAG, "onClick: Menu 2")

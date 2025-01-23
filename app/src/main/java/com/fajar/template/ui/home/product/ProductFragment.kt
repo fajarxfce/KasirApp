@@ -56,18 +56,6 @@ class ProductFragment : Fragment() {
 
             }
         }
-
-        var no = 1
-        binding.btnAddProduct.setOnClickListener {
-            val product = Product(name = "Product $no", price = 1000.0, stock = 10, description = "Description", image = "https://via.placeholder.com/150")
-            viewModel.addProduct(product, onLoading = {
-                Log.d(TAG, "onViewCreated: Loading")
-            }, onSuccess = {
-                Log.d(TAG, "onViewCreated: Success")
-            }, onError = {
-                Log.d(TAG, "onViewCreated: $it")
-            })
-        }
     }
     companion object {
         private const val TAG = "ProductFragment"

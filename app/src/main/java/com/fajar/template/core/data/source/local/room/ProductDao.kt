@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.fajar.template.core.data.source.local.entity.ProductEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
@@ -15,7 +16,7 @@ interface ProductDao {
     suspend fun updateProduct(product: ProductEntity)
 
     @Query("SELECT * FROM products")
-    suspend fun getProducts(): List<ProductEntity>
+    fun getProducts(): Flow<List<ProductEntity>>
 
     @Query("SELECT * FROM products WHERE id = :id")
     suspend fun getProduct(id: Int): ProductEntity

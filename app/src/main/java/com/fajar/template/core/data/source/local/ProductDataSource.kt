@@ -3,19 +3,16 @@ package com.fajar.template.core.data.source.local
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.data.source.local.room.ProductDao
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ProductDataSource @Inject constructor(private val productDao: ProductDao) {
-    fun getProducts() = flow {
-        emit(Resource.Loading())
-        try {
-            emit(Resource.Success(productDao.getProducts()))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message.toString()))
-        }
+    fun getProducts(): Flow<Resource<List<ProductEntity>>> {
+        return productDao.getProducts().map { Resource.Success(it) }
     }
     fun getProductById(id: Int) = flow { emit(productDao.getProduct(id)) }
     fun addProduct(product: ProductEntity) = flow {

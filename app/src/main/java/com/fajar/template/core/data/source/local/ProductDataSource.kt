@@ -1,5 +1,6 @@
 package com.fajar.template.core.data.source.local
 
+import com.fajar.template.core.data.Resource
 import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.data.source.local.room.ProductDao
 import kotlinx.coroutines.flow.flow
@@ -11,8 +12,13 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
     fun getProducts() = flow { emit(productDao.getProducts()) }
     fun getProductById(id: Int) = flow { emit(productDao.getProduct(id)) }
     fun addProduct(product: ProductEntity) = flow {
-        productDao.insertProduct(product)
-        emit(Unit)
+        emit(Resource.Loading())
+        try {
+            productDao.insertProduct(product)
+            emit(Resource.Success(Unit))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
     }
 
     fun updateProduct(product: ProductEntity) = flow {

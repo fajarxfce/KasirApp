@@ -1,5 +1,6 @@
 package com.fajar.template.core.domain.usecase
 
+import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.core.domain.repository.IProductRepository
 import kotlinx.coroutines.flow.Flow
@@ -15,7 +16,7 @@ class ProductInteractor @Inject constructor(private val repository: IProductRepo
         return repository.getProduct(id)
     }
 
-    override fun addProduct(product: Product): Flow<Unit> {
+    override fun addProduct(product: Product): Flow<Resource<Unit>> {
         return repository.addProduct(product)
     }
 

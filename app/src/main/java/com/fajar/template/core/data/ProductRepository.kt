@@ -42,7 +42,7 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    override fun addProduct(product: Product): Flow<Unit> {
+    override fun addProduct(product: Product): Flow<Resource<Unit>> {
         Log.d(TAG, "addProduct: ${product.name}")
         val productEntity = ProductEntity(
             product.id,

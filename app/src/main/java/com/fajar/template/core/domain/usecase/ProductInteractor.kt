@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ProductInteractor @Inject constructor(private val repository: IProductRepository) :
     ProductUseCase {
-    override fun getProducts(): Flow<List<Product>> {
+    override fun getProducts(): Flow<Resource<List<Product>>> {
         return repository.getProducts()
     }
 

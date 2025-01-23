@@ -14,17 +14,21 @@ import javax.inject.Singleton
 class ProductRepository @Inject constructor(
     private val productDataSource: ProductDataSource
 ) : IProductRepository {
-    override fun getProducts(): Flow<List<Product>> {
-        return productDataSource.getProducts().map {
-            it.map { productEntity ->
-                Product(
-                    productEntity.id,
-                    productEntity.name,
-                    productEntity.description,
-                    productEntity.image,
-                    productEntity.price,
-                    productEntity.stock
-                )
+    override fun getProducts(): Flow<Resource<List<Product>>> {
+        return productDataSource.getProducts().map { resource ->
+            when (resource) {
+                is Resource.Loading -> Resource.Loading()
+                is Resource.Success -> Resource.Success(resource.data?.map {
+                    Product(
+                        it.id,
+                        it.name,
+                        it.description,
+                        it.image,
+                        it.price,
+                        it.stock
+                    )
+                } ?: emptyList())
+                is Resource.Error -> Resource.Error("Error: ${resource.message}")
             }
         }
     }

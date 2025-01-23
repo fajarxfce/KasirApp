@@ -9,7 +9,14 @@ import javax.inject.Singleton
 
 @Singleton
 class ProductDataSource @Inject constructor(private val productDao: ProductDao) {
-    fun getProducts() = flow { emit(productDao.getProducts()) }
+    fun getProducts() = flow {
+        emit(Resource.Loading())
+        try {
+            emit(Resource.Success(productDao.getProducts()))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
     fun getProductById(id: Int) = flow { emit(productDao.getProduct(id)) }
     fun addProduct(product: ProductEntity) = flow {
         emit(Resource.Loading())

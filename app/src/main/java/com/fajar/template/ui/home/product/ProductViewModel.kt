@@ -23,10 +23,14 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
         }
     }
 
-    fun getProducts(onResult: (List<Product>) -> Unit) {
+    fun getProducts(onLoading: () -> Unit, onSuccess: (List<Product>) -> Unit, onError: (String) -> Unit) {
         viewModelScope.launch {
             productUseCase.getProducts().collect {
-                onResult(it)
+                when (it) {
+                    is Resource.Loading -> onLoading()
+                    is Resource.Success -> onSuccess(it.data?: emptyList())
+                    is Resource.Error -> onError("Error: ${it.message}")
+                }
             }
         }
     }

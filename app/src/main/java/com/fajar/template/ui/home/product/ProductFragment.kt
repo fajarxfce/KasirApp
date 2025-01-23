@@ -30,11 +30,19 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getProducts { products ->
-            products.forEach {
-                Log.d(TAG, "onViewCreated: ${it.name}")
+        viewModel.getProducts(
+            onLoading = {
+                Log.d(TAG, "getProducts: Loading")
+            },
+            onSuccess = {
+                it.forEach {
+                    Log.d(TAG, "getProducts: ${it.name}")
+                }
+            },
+            onError = {
+                Log.d(TAG, "getProducts: $it")
             }
-        }
+        )
         var no = 1
         binding.btnAddProduct.setOnClickListener {
 

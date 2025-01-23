@@ -1,5 +1,6 @@
 package com.fajar.template.core.data
 
+import android.util.Log
 import com.fajar.template.core.data.source.local.ProductDataSource
 import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.domain.model.Product
@@ -42,6 +43,7 @@ class ProductRepository @Inject constructor(
     }
 
     override fun addProduct(product: Product): Flow<Unit> {
+        Log.d(TAG, "addProduct: ${product.name}")
         val productEntity = ProductEntity(
             product.id,
             product.name,
@@ -70,4 +72,7 @@ class ProductRepository @Inject constructor(
     }
 
 
+    companion object {
+        private const val TAG = "ProductRepository"
+    }
 }

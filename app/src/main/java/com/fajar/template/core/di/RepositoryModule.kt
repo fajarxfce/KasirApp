@@ -1,6 +1,8 @@
 package com.fajar.template.core.di
 
+import com.fajar.template.core.data.ProductRepository
 import com.fajar.template.core.data.UserRepository
+import com.fajar.template.core.domain.repository.IProductRepository
 import com.fajar.template.core.domain.repository.IUserRespository
 import dagger.Binds
 import dagger.Module
@@ -11,7 +13,12 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule{
     @Binds
-    abstract fun provideRepository(
+    abstract fun provideUserRepository(
         userRepository: UserRepository
     ): IUserRespository
+
+    @Binds
+    abstract fun provideProductRepository(
+        productRepository: ProductRepository
+    ): IProductRepository
 }

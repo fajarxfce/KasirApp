@@ -15,4 +15,22 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
 
     val products = productUseCase.getProducts().asLiveData()
 
+    fun addProduct(product: Product) {
+        viewModelScope.launch {
+            productUseCase.addProduct(product).collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        // Show loading state
+                    }
+                    is Resource.Success -> {
+                        // Handle success
+                    }
+                    is Resource.Error -> {
+                        // Show error message
+                    }
+                }
+            }
+        }
+    }
+
 }

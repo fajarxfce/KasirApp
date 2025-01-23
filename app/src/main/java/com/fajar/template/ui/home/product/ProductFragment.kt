@@ -46,7 +46,7 @@ class ProductFragment : Fragment() {
                     results.data?.forEach {
                         Log.d(TAG, "anjay: ${it.name}")
                     }
-                    adapter.updateData(results.data?: emptyList())
+                    adapter.updateData(results.data ?: emptyList())
                     binding.rvProduct.adapter = adapter
                 }
 
@@ -56,7 +56,20 @@ class ProductFragment : Fragment() {
 
             }
         }
+
+        binding.btnAddProduct.setOnClickListener {
+            val product = Product(
+                null,
+                "Product 1",
+                "Description 1",
+                "https://via.placeholder.com/150",
+                1000.0,
+                10
+            )
+            viewModel.addProduct(product)
+        }
     }
+
     companion object {
         private const val TAG = "ProductFragment"
     }

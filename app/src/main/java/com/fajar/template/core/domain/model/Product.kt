@@ -5,6 +5,8 @@ data class Product(
     val name: String,
     val description: String,
     val image: String,
-    val price: Double,
-    val stock: Int
+    val stock: Int,
+    val sellPrice: Long,
+    val purchasePrice: Long,
+    val barcode: String,
 )

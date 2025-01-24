@@ -22,12 +22,14 @@ class ProductRepository @Inject constructor(
                 is Resource.Loading -> Resource.Loading()
                 is Resource.Success -> Resource.Success(resource.data?.map {
                     Product(
-                        it.productId,
-                        it.name,
-                        it.description,
-                        it.image,
-                        it.price,
-                        it.stock
+                        id = it.productId,
+                        name = it.name,
+                        description = it.description,
+                        image = it.image,
+                        sellPrice = it.sellPrice,
+                        purchasePrice = it.purchasePrice,
+                        stock = it.stock,
+                        barcode = it.barcode
                     )
                 } ?: emptyList())
                 is Resource.Error -> Resource.Error("Error: ${resource.message}")
@@ -38,12 +40,14 @@ class ProductRepository @Inject constructor(
     override fun getProduct(id: Int): Flow<Product> {
         return productDataSource.getProductById(id).map { productEntity ->
             Product(
-                productEntity.productId,
-                productEntity.name,
-                productEntity.description,
-                productEntity.image,
-                productEntity.price,
-                productEntity.stock
+                id = productEntity.productId,
+                name = productEntity.name,
+                description = productEntity.description,
+                image = productEntity.image,
+                sellPrice = productEntity.sellPrice,
+                purchasePrice = productEntity.purchasePrice,
+                stock = productEntity.stock,
+                barcode = productEntity.barcode
             )
         }
     }
@@ -51,24 +55,27 @@ class ProductRepository @Inject constructor(
     override fun addProduct(product: Product): Flow<Resource<Unit>> {
         Log.d(TAG, "addProduct: ${product.name}")
         val productEntity = ProductEntity(
-            product.id,
-            product.name,
-            product.description,
-            product.image,
-            product.price,
-            product.stock
+            name = product.name,
+            description = product.description,
+            image = product.image,
+            sellPrice = product.sellPrice,
+            purchasePrice = product.purchasePrice,
+            stock = product.stock,
+            barcode = product.barcode
         )
         return productDataSource.addProduct(productEntity)
     }
 
     override fun updateProduct(product: Product): Flow<Unit> {
         val productEntity = ProductEntity(
-            product.id,
-            product.name,
-            product.description,
-            product.image,
-            product.price,
-            product.stock
+            productId = product.id,
+            name = product.name,
+            description = product.description,
+            image = product.image,
+            sellPrice = product.sellPrice,
+            purchasePrice = product.purchasePrice,
+            stock = product.stock,
+            barcode = product.barcode
         )
         return productDataSource.updateProduct(productEntity)
     }

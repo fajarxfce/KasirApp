@@ -8,12 +8,14 @@ object DataMapper {
     fun productsEntityToDomain(entity: List<ProductEntity>) =
         entity.map {
             Product(
-                it.productId,
-                it.name,
-                it.description,
-                it.image,
-                it.price,
-                it.stock
+                id = it.productId,
+                name = it.name,
+                description = it.description,
+                image = it.image,
+                sellPrice = it.sellPrice,
+                purchasePrice = it.purchasePrice,
+                stock = it.stock,
+                barcode = it.barcode
             )
         }
 }

@@ -53,7 +53,7 @@ class ProductAdapter() :
         fun bind(product: Product) {
             with(binding) {
                 binding.productName.text = product.name
-                binding.productPrice.text = product.price.toString()
+                binding.productPrice.text = product.sellPrice.toString()
                 binding.productStock.text = product.stock.toString()
                 binding.cardProduct.setOnClickListener {
 //                    Snackbar.make(it, "Product ${product.name}", Snackbar.LENGTH_SHORT).show()

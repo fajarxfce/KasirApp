@@ -17,4 +17,11 @@
     <string name="tambah_produk">Tambah Produk</string>
     <string name="name">Name</string>
     <string name="searchbar_hint">Cari Produk</string>
+    <string name="barcode">Barcode</string>
+    <string name="stock">Stock</string>
+    <string name="product_name">Nama Produk</string>
+    <string name="harga_beli">Harga Beli</string>
+    <string name="harga_jual">Harga Jual</string>
+    <string name="kategori">Kategori</string>
+    <string name="tambah">Tambah</string>
 </resources>

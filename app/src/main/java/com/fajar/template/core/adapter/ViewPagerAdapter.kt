@@ -1,16 +1,16 @@
 package com.fajar.template.core.adapter
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.fajar.template.ui.home.product.CategoryFragment
 import com.fajar.template.ui.home.product.ProductFragment
+import com.fajar.template.ui.home.product.ProductManagementFragment
 
-class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class ViewPagerAdapter(fragment: ProductManagementFragment) : FragmentStateAdapter(fragment) {
 
     private val fragment = listOf(
-        ProductFragment(),
-        CategoryFragment()
+        ProductFragment.newInstance("",""),
+        CategoryFragment.newInstance("","")
     )
 
     private val title = listOf(
@@ -18,6 +18,13 @@ class ViewPagerAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapte
         "Category"
     )
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun containsItem(itemId: Long): Boolean {
+        return itemId in 0 until itemCount
+    }
     override fun getItemCount(): Int = fragment.size
 
     override fun createFragment(position: Int): Fragment = fragment[position]

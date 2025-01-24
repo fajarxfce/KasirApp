@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    tools:context=".ui.home.product.AddProductFragment">
+    android:divider="@color/green_500"
+    tools:context=".ui.home.product.AddProductDialogFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/email">
+        android:hint="@string/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_email"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="12sp"
-            android:background="@drawable/text_input_layout_background"
+            android:layout_height="wrap_content"
+            android:background="#00FFFFFF"
             android:drawableStart="@drawable/baseline_attach_email_24"
             android:drawablePadding="10dp"
             android:drawableTint="@color/green_500"
             android:fontFamily="@font/lato_bold"
-            android:textAlignment="viewStart"
-            android:textColor="@color/green_100"/>
+            android:textAlignment="viewStart" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
 </LinearLayout>

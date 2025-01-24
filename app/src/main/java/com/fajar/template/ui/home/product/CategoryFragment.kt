@@ -71,6 +71,14 @@ class CategoryFragment : Fragment() {
 
     companion object {
         private const val TAG = "CategoryFragment"
+
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            CategoryFragment().apply {
+                arguments = Bundle().apply {
+
+                }
+            }
     }
 
 }

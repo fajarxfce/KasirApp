@@ -6,8 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fajar.template.R
 import com.fajar.template.core.adapter.ProductAdapter
@@ -51,21 +54,27 @@ class ProductFragment : Fragment() {
             }
         }
         var no = 1
+//        binding.btnAddProduct.setOnClickListener {
+//            val product = Product(
+//                null,
+//                "Product $no",
+//                "Description 1",
+//                "https://via.placeholder.com/150",
+//                1000.0,
+//                10
+//            )
+//            viewModel.addProduct(product,
+//                onLoading = {},
+//                onSuccess = {Snackbar.make(view, "Success", Snackbar.LENGTH_SHORT).show()},
+//                onError = {}
+//                )
+//            no++
+//        }
+
         binding.btnAddProduct.setOnClickListener {
-            val product = Product(
-                null,
-                "Product $no",
-                "Description 1",
-                "https://via.placeholder.com/150",
-                1000.0,
-                10
-            )
-            viewModel.addProduct(product,
-                onLoading = {},
-                onSuccess = {Snackbar.make(view, "Success", Snackbar.LENGTH_SHORT).show()},
-                onError = {}
-                )
-            no++
+//            findNavController().navigate(R.id.action_productFragment_to_addProductFragment3)
+            val action = ProductManagementFragmentDirections.actionProductManagementFragmentToAddProductFragment4()
+            requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(action)
         }
 
         adapter.setOnItemClickCallback(object : ProductAdapter.OnItemClickCallback {
@@ -73,6 +82,11 @@ class ProductFragment : Fragment() {
                 deleteProduct(data.id!!)
             }
         })
+    }
+
+    private fun showDialog() {
+        val newFragment = AddProductDialogFragment()
+        newFragment.show(childFragmentManager, "ADD_PRODUCT")
     }
 
     fun deleteProduct(id: Int) {
@@ -88,5 +102,13 @@ class ProductFragment : Fragment() {
     companion object {
 
         private const val TAG = "ProductFragment"
+
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            ProductFragment().apply {
+                arguments = Bundle().apply {
+
+                }
+            }
     }
 }

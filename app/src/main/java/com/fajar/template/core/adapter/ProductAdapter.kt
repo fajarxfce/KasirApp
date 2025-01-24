@@ -1,5 +1,6 @@
 package com.fajar.template.core.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,7 @@ class ProductAdapter (private var items : List<Product>) : RecyclerView.Adapter<
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newItems: List<Product>) {
         items = newItems
         notifyDataSetChanged()

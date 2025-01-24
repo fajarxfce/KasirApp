@@ -14,4 +14,6 @@
     <string name="product">Product</string>
     <string name="add_product">Tambah Product</string>
     <string name="management_product">Management Product</string>
+    <string name="tambah_produk">Tambah Produk</string>
+    <string name="name">Name</string>
 </resources>

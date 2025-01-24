@@ -1,6 +1,7 @@
 package com.fajar.template.core.domain.usecase
 
 import com.fajar.template.core.data.Resource
+import com.fajar.template.core.domain.model.Category
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.core.domain.repository.IProductRepository
 import kotlinx.coroutines.flow.Flow
@@ -26,6 +27,26 @@ class ProductInteractor @Inject constructor(private val repository: IProductRepo
 
     override fun deleteProduct(id: Int): Flow<Unit> {
         return repository.deleteProduct(id)
+    }
+
+    override fun addCategory(category: Category): Flow<Resource<Unit>> {
+        return repository.addCategory(category)
+    }
+
+    override fun getCategories(): Flow<Resource<List<Category>>> {
+        return repository.getCategories()
+    }
+
+    override fun getCategory(id: Int): Flow<Category> {
+        return repository.getCategory(id)
+    }
+
+    override fun updateCategory(category: Category): Flow<Resource<Unit>> {
+        return repository.updateCategory(category)
+    }
+
+    override fun deleteCategory(id: Int): Flow<Unit> {
+        return repository.deleteCategory(id)
     }
 
 

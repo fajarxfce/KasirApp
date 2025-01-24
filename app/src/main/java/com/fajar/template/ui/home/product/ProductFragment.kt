@@ -34,14 +34,14 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        adapter = ProductAdapter()
         viewModel.products.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
                     Log.d(TAG, "onViewCreated: Loading")
                 }
                 is Resource.Success -> {
-                    adapter = ProductAdapter(it.data ?: emptyList())
+                    adapter.setListProduct(it.data ?: emptyList())
                     binding.rvProduct.layoutManager = LinearLayoutManager(requireContext())
                     binding.rvProduct.adapter = adapter
                 }

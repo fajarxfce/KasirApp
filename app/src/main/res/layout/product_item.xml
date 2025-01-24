@@ -5,9 +5,12 @@
     android:backgroundTint="@color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_product"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusable="true"
         app:cardBackgroundColor="@color/transparent"
+        android:clickable="true"
         app:cardElevation="0dp"
         app:cardCornerRadius="0dp">
         <LinearLayout

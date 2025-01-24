@@ -16,4 +16,5 @@
     <string name="management_product">Management Product</string>
     <string name="tambah_produk">Tambah Produk</string>
     <string name="name">Name</string>
+    <string name="searchbar_hint">Cari Produk</string>
 </resources>

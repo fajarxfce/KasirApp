@@ -19,4 +19,5 @@ import com.fajar.template.core.data.source.local.entity.UserEntity
 abstract class CashierDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun productDao(): ProductDao
+    abstract fun categoryDao(): CategoryDao
 }

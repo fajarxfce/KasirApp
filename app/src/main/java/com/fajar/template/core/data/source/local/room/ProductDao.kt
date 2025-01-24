@@ -41,21 +41,4 @@ interface ProductDao {
 
     @Query("DELETE FROM product WHERE productId = :id")
     suspend fun deleteProduct(id: Int)
-
-    //crud for categories
-    @Insert
-    suspend fun insertCategory(categoryEntity: CategoryEntity)
-
-    @Update
-    suspend fun updateCategory(categoryEntity: CategoryEntity)
-
-    @Query("SELECT * FROM categories")
-    fun getCategories(): Flow<List<CategoryEntity>>
-
-    @Query("SELECT * FROM categories WHERE categoryId = :id")
-    fun getCategory(id: Int): CategoryEntity
-
-    @Query("DELETE FROM categories WHERE categoryId = :id")
-    suspend fun deleteCategory(id: Int)
-
 }

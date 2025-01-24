@@ -25,6 +25,7 @@ class CategoryFragment : Fragment() {
         FragmentCategoryBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<ProductViewModel>()
+    private val categoryViewModel by viewModels<CategoryViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +37,7 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.categories.observe(viewLifecycleOwner) {
+        categoryViewModel.categories.observe(viewLifecycleOwner) {
             when(it){
                 is Resource.Loading -> {
                     Log.d(TAG, "onViewCreated: Loading")
@@ -57,7 +58,7 @@ class CategoryFragment : Fragment() {
             val category = Category(
                 name = "Category $no"
             )
-            viewModel.addCategory(category, {
+            categoryViewModel.addCategory(category, {
                 Log.d(TAG, "onViewCreated: Loading")
             }, {
                 Log.d(TAG, "onViewCreated: Success")

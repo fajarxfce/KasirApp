@@ -76,43 +76,7 @@ class ProductRepository @Inject constructor(
     override fun deleteProduct(id: Int): Flow<Unit> {
         return productDataSource.deleteProduct(id)
     }
-
-    override fun addCategory(category: Category): Flow<Resource<Unit>> =
-        productDataSource.addCategories(CategoryEntity(name = category.name))
-
-    override fun getCategories(): Flow<Resource<List<Category>>> {
-        return productDataSource.getCategories().map { resource ->
-            when (resource) {
-                is Resource.Loading -> Resource.Loading()
-                is Resource.Success -> Resource.Success(resource.data?.map {
-                    Category(
-                        it.categoryId,
-                        it.name
-                    )
-                } ?: emptyList())
-                is Resource.Error -> Resource.Error("Error: ${resource.message}")
-            }
-        }
-    }
-
-    override fun getCategory(id: Int): Flow<Category> {
-        return productDataSource.getCategoryById(id).map {
-            Category(
-                it.categoryId,
-                it.name
-            )
-        }
-    }
-
-    override fun updateCategory(category: Category): Flow<Resource<Unit>> =
-        productDataSource.updateCategory(CategoryEntity(category.id, category.name))
-
-    override fun deleteCategory(id: Int): Flow<Unit> {
-        return productDataSource.deleteCategory(id)
-    }
-
-
-    companion object {
+        companion object {
         private const val TAG = "ProductRepository"
     }
 }

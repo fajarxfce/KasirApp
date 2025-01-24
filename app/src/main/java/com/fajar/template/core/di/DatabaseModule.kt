@@ -3,6 +3,7 @@ package com.fajar.template.core.di
 import android.content.Context
 import androidx.room.Room
 import com.fajar.template.core.data.source.local.room.CashierDatabase
+import com.fajar.template.core.data.source.local.room.CategoryDao
 import com.fajar.template.core.data.source.local.room.ProductDao
 import com.fajar.template.core.data.source.local.room.UserDao
 import dagger.Module
@@ -36,4 +37,8 @@ class DatabaseModule {
     @Provides
     fun provideProductDao(database: CashierDatabase): ProductDao =
         database.productDao()
+
+    @Provides
+    fun provideCategoryDao(database: CashierDatabase): CategoryDao =
+        database.categoryDao()
 }

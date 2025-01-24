@@ -33,8 +33,13 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
     }
 
     fun deleteProduct(id: Int) = flow {
-        productDao.deleteProduct(id)
-        emit(Unit)
+        emit(Resource.Loading())
+        try {
+            productDao.deleteProduct(id)
+            emit(Resource.Success(Unit))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
     }
     fun addProductCategoryCrossRef(productId: Int, categoryId: Int) = flow {
         productDao.insertProductCategoryCrossRef(ProductCategoryCrossRef(productId, categoryId))

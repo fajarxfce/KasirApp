@@ -73,7 +73,7 @@ class ProductRepository @Inject constructor(
         return productDataSource.updateProduct(productEntity)
     }
 
-    override fun deleteProduct(id: Int): Flow<Unit> {
+    override fun deleteProduct(id: Int): Flow<Resource<Unit>> {
         return productDataSource.deleteProduct(id)
     }
         companion object {

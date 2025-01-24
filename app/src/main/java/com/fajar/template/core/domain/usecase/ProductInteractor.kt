@@ -25,7 +25,7 @@ class ProductInteractor @Inject constructor(private val repository: IProductRepo
         return repository.updateProduct(product)
     }
 
-    override fun deleteProduct(id: Int): Flow<Unit> {
+    override fun deleteProduct(id: Int): Flow<Resource<Unit>> {
         return repository.deleteProduct(id)
     }
 }

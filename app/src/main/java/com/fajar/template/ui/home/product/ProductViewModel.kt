@@ -42,4 +42,29 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
         }
     }
 
+    fun deleteProduct(
+        id: Int,
+        onLoading: () -> Unit,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        viewModelScope.launch {
+            productUseCase.deleteProduct(id).collect { resource ->
+                when (resource) {
+                    is Resource.Loading -> {
+                        onLoading()
+                    }
+
+                    is Resource.Success -> {
+                        onSuccess()
+                    }
+
+                    is Resource.Error -> {
+                        onError()
+                    }
+                }
+            }
+        }
+    }
+
 }

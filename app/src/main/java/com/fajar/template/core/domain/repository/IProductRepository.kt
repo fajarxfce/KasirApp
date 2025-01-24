@@ -10,5 +10,5 @@ interface IProductRepository {
     fun getProduct(id: Int): Flow<Product>
     fun addProduct(product: Product) : Flow<Resource<Unit>>
     fun updateProduct(product: Product) : Flow<Unit>
-    fun deleteProduct(id: Int) : Flow<Unit>
+    fun deleteProduct(id: Int) : Flow<Resource<Unit>>
 }

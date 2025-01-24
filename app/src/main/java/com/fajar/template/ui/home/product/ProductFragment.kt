@@ -50,11 +50,11 @@ class ProductFragment : Fragment() {
                 }
             }
         }
-
+        var no = 1
         binding.btnAddProduct.setOnClickListener {
             val product = Product(
                 null,
-                "Product 1",
+                "Product $no",
                 "Description 1",
                 "https://via.placeholder.com/150",
                 1000.0,
@@ -65,10 +65,28 @@ class ProductFragment : Fragment() {
                 onSuccess = {Snackbar.make(view, "Success", Snackbar.LENGTH_SHORT).show()},
                 onError = {}
                 )
+            no++
+        }
+
+        adapter.setOnItemClickCallback(object : ProductAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Product) {
+                deleteProduct(data.id!!)
+            }
+        })
+    }
+
+    fun deleteProduct(id: Int) {
+        lifecycleScope.launch {
+            viewModel.deleteProduct(id,
+                onLoading = {},
+                onSuccess = {Snackbar.make(requireView(), "Success", Snackbar.LENGTH_SHORT).show() },
+                onError = {}
+            )
         }
     }
 
     companion object {
+
         private const val TAG = "ProductFragment"
     }
 }

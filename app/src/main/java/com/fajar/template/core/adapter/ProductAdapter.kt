@@ -8,10 +8,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.databinding.ProductItemBinding
 import com.fajar.template.helper.ProductDiffCallback
+import com.fajar.template.ui.home.product.ProductFragment
 import com.google.android.material.snackbar.Snackbar
 
 class ProductAdapter() :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: Product)
+    }
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
 
     private val listProduct = ArrayList<Product>()
     fun setListProduct(listProduct: List<Product>) {
@@ -46,7 +56,8 @@ class ProductAdapter() :
                 binding.productPrice.text = product.price.toString()
                 binding.productStock.text = product.stock.toString()
                 binding.cardProduct.setOnClickListener {
-                    Snackbar.make(it, "Product ${product.name}", Snackbar.LENGTH_SHORT).show()
+//                    Snackbar.make(it, "Product ${product.name}", Snackbar.LENGTH_SHORT).show()
+                    onItemClickCallback.onItemClicked(product)
                 }
             }
         }

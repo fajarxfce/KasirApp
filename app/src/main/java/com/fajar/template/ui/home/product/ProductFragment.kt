@@ -35,6 +35,21 @@ class ProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        viewModel.products.observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.d(TAG, "onViewCreated: Loading")
+                }
+                is Resource.Success -> {
+                    adapter = ProductAdapter(it.data ?: emptyList())
+                    binding.rvProduct.layoutManager = LinearLayoutManager(requireContext())
+                    binding.rvProduct.adapter = adapter
+                }
+                is Resource.Error -> {
+                    Log.d(TAG, "onViewCreated: Error")
+                }
+            }
+        }
 
         binding.btnAddProduct.setOnClickListener {
             val product = Product(

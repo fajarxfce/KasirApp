@@ -7,12 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.fajar.template.R
+import com.fajar.template.databinding.FragmentCategoryBinding
 import com.fajar.template.databinding.FragmentProductManagementBinding
 
 class CategoryFragment : Fragment() {
 
     private val binding by lazy {
-        FragmentProductManagementBinding.inflate(layoutInflater)
+        FragmentCategoryBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<ProductViewModel>()
 

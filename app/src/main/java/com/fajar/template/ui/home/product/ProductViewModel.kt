@@ -1,5 +1,6 @@
 package com.fajar.template.ui.home.product
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -20,7 +21,7 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
     fun addProduct(
         product: Product,
         onLoading: () -> Unit,
-        onSuccess: () -> Unit,
+        onSuccess: (Long) -> Unit,
         onError: () -> Unit
     ) {
         viewModelScope.launch {
@@ -31,7 +32,9 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
                     }
 
                     is Resource.Success -> {
-                        onSuccess()
+                        if (resource.data != null) {
+                            onSuccess(resource.data)
+                        }
                     }
 
                     is Resource.Error -> {

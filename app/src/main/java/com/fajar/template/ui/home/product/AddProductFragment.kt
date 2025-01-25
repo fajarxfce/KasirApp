@@ -1,6 +1,7 @@
 package com.fajar.template.ui.home.product
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -114,6 +115,7 @@ class AddProductFragment : Fragment() {
                 ),
                 onLoading = {},
                 onSuccess = {
+                    Log.d(TAG, "submit: ${it}")
                     showToast(getString(R.string.success_add_product, fieldName.value))
                     requireActivity().onBackPressed()
                 },
@@ -133,5 +135,9 @@ class AddProductFragment : Fragment() {
 
     private fun showToast(message: String) {
         Snackbar.make(requireView(), message, Snackbar.LENGTH_SHORT).show()
+    }
+
+    companion object {
+        private const val TAG = "AddProductFragment"
     }
 }

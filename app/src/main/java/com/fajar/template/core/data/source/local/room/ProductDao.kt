@@ -28,7 +28,7 @@ interface ProductDao {
     suspend fun insertProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef)
 
     @Insert
-    suspend fun insertProduct(product: ProductEntity)
+    suspend fun insertProduct(product: ProductEntity) : Long
 
     @Update
     suspend fun updateProduct(product: ProductEntity)

@@ -6,6 +6,7 @@ import com.fajar.template.core.data.source.local.entity.CategoryEntity
 import com.fajar.template.core.data.source.local.entity.ProductCategoryCrossRef
 import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.data.source.local.room.ProductDao
+import com.fajar.template.core.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -18,11 +19,11 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
         return productDao.getProducts().map { Resource.Success(it) }
     }
     fun getProductById(id: Int) = flow { emit(productDao.getProduct(id)) }
-    fun addProduct(product: ProductEntity) = flow {
+    fun addProduct(product: ProductEntity) : Flow<Resource<Long>> = flow {
         emit(Resource.Loading())
         try {
-            productDao.insertProduct(product)
-            emit(Resource.Success(Unit))
+            val insertedProduct = productDao.insertProduct(product)
+            emit(Resource.Success(insertedProduct))
         } catch (e: Exception) {
             Log.d(TAG, "addProduct: ${e.message}")
             emit(Resource.Error(e.message.toString()))

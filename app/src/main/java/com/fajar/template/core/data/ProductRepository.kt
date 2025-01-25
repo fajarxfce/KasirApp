@@ -52,7 +52,7 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    override fun addProduct(product: Product): Flow<Resource<Unit>> {
+    override fun addProduct(product: Product): Flow<Resource<Long>> {
         Log.d(TAG, "addProduct: ${product.name}")
         val productEntity = ProductEntity(
             name = product.name,
@@ -63,7 +63,13 @@ class ProductRepository @Inject constructor(
             stock = product.stock,
             barcode = product.barcode
         )
-        return productDataSource.addProduct(productEntity)
+        return productDataSource.addProduct(productEntity).map {
+            when(it) {
+                is Resource.Loading -> Resource.Loading()
+                is Resource.Success -> if (it.data != null) Resource.Success(it.data) else Resource.Error("Error: Failed to add product")
+                is Resource.Error -> Resource.Error("Error: ${it.message}")
+            }
+        }
     }
 
     override fun updateProduct(product: Product): Flow<Unit> {

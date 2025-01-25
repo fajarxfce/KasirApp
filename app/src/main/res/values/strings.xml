@@ -30,4 +30,6 @@
     <string name="error_product_purchase_price_empty">Harga beli tidak boleh kosong</string>
     <string name="error_product_stock_empty">Stok tidak boleh kosong</string>
     <string name="failed_add_product">Gagal menambahkan produk %1$s</string>
+    <string name="select_category">Pilih Kategori</string>
+    <string name="select">Pilih</string>
 </resources>

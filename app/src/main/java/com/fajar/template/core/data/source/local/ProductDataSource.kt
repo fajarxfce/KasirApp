@@ -1,5 +1,6 @@
 package com.fajar.template.core.data.source.local
 
+import android.util.Log
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.data.source.local.entity.CategoryEntity
 import com.fajar.template.core.data.source.local.entity.ProductCategoryCrossRef
@@ -23,6 +24,7 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
             productDao.insertProduct(product)
             emit(Resource.Success(Unit))
         } catch (e: Exception) {
+            Log.d(TAG, "addProduct: ${e.message}")
             emit(Resource.Error(e.message.toString()))
         }
     }
@@ -46,4 +48,7 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
         emit(Unit)
     }
 
+    companion object {
+        private const val TAG = "ProductDataSource"
+    }
 }

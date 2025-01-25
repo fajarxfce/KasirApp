@@ -24,4 +24,10 @@
     <string name="harga_jual">Harga Jual</string>
     <string name="kategori">Kategori</string>
     <string name="tambah">Tambah</string>
+    <string name="success_add_product">Produk %1$s berhasil ditambahkan</string>
+    <string name="error_product_name_empty">Nama produk tidak boleh kosong</string>
+    <string name="error_product_sell_price_empty">Harga jual tidak boleh kosong</string>
+    <string name="error_product_purchase_price_empty">Harga beli tidak boleh kosong</string>
+    <string name="error_product_stock_empty">Stok tidak boleh kosong</string>
+    <string name="failed_add_product">Gagal menambahkan produk %1$s</string>
 </resources>

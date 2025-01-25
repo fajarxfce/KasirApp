@@ -11,12 +11,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.fajar.template.R
 import com.fajar.template.core.adapter.ProductAdapter
 import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.databinding.FragmentProductBinding
+import com.fajar.template.helper.SpacingDecorator
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,6 +41,10 @@ class ProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         adapter = ProductAdapter()
+        //add spacing between items
+        val itemDecoration = SpacingDecorator.vertical(16)
+        binding.rvProduct.addItemDecoration(itemDecoration)
+
         viewModel.products.observe(viewLifecycleOwner) {
             when (it) {
                 is Resource.Loading -> {
@@ -53,26 +60,8 @@ class ProductFragment : Fragment() {
                 }
             }
         }
-        var no = 1
-//        binding.btnAddProduct.setOnClickListener {
-//            val product = Product(
-//                null,
-//                "Product $no",
-//                "Description 1",
-//                "https://via.placeholder.com/150",
-//                1000.0,
-//                10
-//            )
-//            viewModel.addProduct(product,
-//                onLoading = {},
-//                onSuccess = {Snackbar.make(view, "Success", Snackbar.LENGTH_SHORT).show()},
-//                onError = {}
-//                )
-//            no++
-//        }
 
         binding.btnAddProduct.setOnClickListener {
-//            findNavController().navigate(R.id.action_productFragment_to_addProductFragment3)
             val action = ProductManagementFragmentDirections.actionProductManagementFragmentToAddProductFragment4()
             requireActivity().findNavController(R.id.nav_host_fragment_activity_main).navigate(action)
         }

@@ -40,8 +40,8 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.rvProduct.layoutManager = LinearLayoutManager(requireContext())
         adapter = ProductAdapter()
-        //add spacing between items
         val itemDecoration = SpacingDecorator.vertical(16)
         binding.rvProduct.addItemDecoration(itemDecoration)
 
@@ -52,7 +52,6 @@ class ProductFragment : Fragment() {
                 }
                 is Resource.Success -> {
                     adapter.setListProduct(it.data ?: emptyList())
-                    binding.rvProduct.layoutManager = LinearLayoutManager(requireContext())
                     binding.rvProduct.adapter = adapter
                 }
                 is Resource.Error -> {

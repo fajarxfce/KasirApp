@@ -150,6 +150,15 @@ class AddProductFragment : Fragment() {
                 onLoading = {},
                 onSuccess = {
                     Log.d(TAG, "submit: ${it}")
+                    selectedCategories.forEach { category ->
+                        viewModel.addProductCategoryCrossRef(
+                            it.toInt(),
+                            category.id!!,
+                            onLoading = {},
+                            onSuccess = {},
+                            onError = {}
+                        )
+                    }
                     showToast(getString(R.string.success_add_product, fieldName.value))
                     requireActivity().onBackPressed()
                 },

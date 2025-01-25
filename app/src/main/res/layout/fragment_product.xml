@@ -16,7 +16,7 @@
         <com.google.android.material.search.SearchBar
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:backgroundTint="@color/white"
             android:hint="@string/searchbar_hint"
             android:layout_marginTop="5dp"
@@ -53,6 +53,6 @@
         app:backgroundTint="@color/green_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/green_700" />
+        app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

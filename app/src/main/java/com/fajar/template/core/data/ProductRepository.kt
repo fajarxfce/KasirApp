@@ -91,7 +91,15 @@ class ProductRepository @Inject constructor(
     override fun deleteProduct(id: Int): Flow<Resource<Unit>> {
         return productDataSource.deleteProduct(id)
     }
-        companion object {
+
+    override fun insertProductCategoryCrossRef(
+        productId: Int,
+        categoryId: Int
+    ): Flow<Resource<Unit>> {
+        return productDataSource.addProductCategoryCrossRef(productId, categoryId)
+    }
+
+    companion object {
         private const val TAG = "ProductRepository"
     }
 

@@ -14,9 +14,15 @@ import com.fajar.template.core.domain.model.Category
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.databinding.FragmentAddProductBinding
 import com.fajar.template.helper.FormFieldText
+import com.fajar.template.helper.disableALl
+import com.fajar.template.helper.enableAll
+import com.fajar.template.helper.validateAll
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import reactivecircus.flowbinding.android.view.clicks
 
 @AndroidEntryPoint
 class AddProductFragment : Fragment() {
@@ -25,7 +31,9 @@ class AddProductFragment : Fragment() {
         FragmentAddProductBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<ProductViewModel>()
+    private val categoryViewModel by viewModels<CategoryViewModel>()
     private var selectedCategories: List<Category> = emptyList()
+
     private val fieldName by lazy {
         FormFieldText(
             scope = lifecycleScope,
@@ -34,6 +42,7 @@ class AddProductFragment : Fragment() {
             validation = { value ->
                 when {
                     value.isNullOrBlank() -> getString(R.string.error_product_name_empty)
+                    value.isEmpty() -> getString(R.string.error_product_name_empty)
                     else -> null
                 }
             }
@@ -48,6 +57,7 @@ class AddProductFragment : Fragment() {
             validation = { value ->
                 when {
                     value.isNullOrBlank() -> getString(R.string.error_product_sell_price_empty)
+                    value.isEmpty() -> getString(R.string.error_product_sell_price_empty)
                     else -> null
                 }
             }
@@ -62,6 +72,7 @@ class AddProductFragment : Fragment() {
             validation = { value ->
                 when {
                     value.isNullOrBlank() -> getString(R.string.error_product_purchase_price_empty)
+                    value.isEmpty() -> getString(R.string.error_product_purchase_price_empty)
                     else -> null
                 }
             }
@@ -76,10 +87,15 @@ class AddProductFragment : Fragment() {
             validation = { value ->
                 when {
                     value.isNullOrBlank() -> getString(R.string.error_product_stock_empty)
+                    value.isEmpty() -> getString(R.string.error_product_stock_empty)
                     else -> null
                 }
             }
         )
+    }
+
+    private val formFields by lazy {
+        listOf(fieldName, fieldSellPrice, fieldPurchasePrice, fieldStock)
     }
 
     override fun onCreateView(
@@ -92,7 +108,21 @@ class AddProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnAddProduct.setOnClickListener { submit() }
+        binding.etName.setText("Product 1")
+        binding.etSellPrice.setText("10000")
+        binding.etPurchasePrice.setText("8000")
+        binding.etStock.setText("10")
+        binding.etBarcode.setText("1234567890")
+
+
+        categoryViewModel.categories.observe(viewLifecycleOwner) {
+            it.data?.forEach { category ->
+                Log.d(TAG, "onViewCreated: ${category.name}")
+                binding.etCategory.append("${category.id}, ")
+            }
+        }
+
+        binding.btnAddProduct.clicks().onEach { submit() }.launchIn(lifecycleScope)
         binding.btnCategory.setOnClickListener {
             // show bottomsheet category dialog
             val dialog = CategoryBottomSheelFragment { categories ->
@@ -104,14 +134,8 @@ class AddProductFragment : Fragment() {
     }
 
     private fun submit() = lifecycleScope.launch {
-        binding.btnAddProduct.isEnabled = false
-
-        fieldName.disable()
-        if (fieldName.validate() && fieldSellPrice.validate() && fieldPurchasePrice.validate() && fieldStock.validate()) {
-            fieldName.value
-            fieldSellPrice.value
-            fieldPurchasePrice.value
-            fieldStock.value
+        formFields.disableALl()
+        if (formFields.validateAll()) {
             viewModel.addProduct(
                 Product(
                     name = fieldName.value ?: "",
@@ -122,6 +146,7 @@ class AddProductFragment : Fragment() {
                     description = "",
                     barcode = ""
                 ),
+                selectedCategories,
                 onLoading = {},
                 onSuccess = {
                     Log.d(TAG, "submit: ${it}")
@@ -129,17 +154,11 @@ class AddProductFragment : Fragment() {
                     requireActivity().onBackPressed()
                 },
                 onError = {
-                    showToast(getString(R.string.failed_add_product, fieldName))
+                    showToast(getString(R.string.failed_add_product, fieldName.value))
                 }
             )
-            showToast(getString(R.string.success_add_product, fieldName.value))
         }
-
-        binding.btnAddProduct.isEnabled = true
-        fieldName.enable()
-        fieldSellPrice.enable()
-        fieldPurchasePrice.enable()
-        fieldStock.enable()
+        formFields.enableAll()
     }
 
     private fun showToast(message: String) {

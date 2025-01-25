@@ -1,5 +1,6 @@
 package com.fajar.template.helper
 
+import android.util.Log
 import androidx.core.view.isVisible
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -35,6 +36,9 @@ class FormFieldText(
         }
 
     init {
+        // Initialize the value with the current text
+        stateInternal.update { textInputEditText.text.toString() }
+
         textInputEditText.textChanges().skipInitialValue().onEach { text ->
             clearError()
             stateInternal.update { text.toString() }
@@ -61,6 +65,7 @@ class FormFieldText(
     }
 
     override suspend fun validate(focusIfError: Boolean): Boolean {
+        Log.d(TAG, "validate: $stateInternal")
         if (!isVisible) {
             return true
         }
@@ -80,5 +85,9 @@ class FormFieldText(
         }
         isValidInternal.update { result }
         return result
+    }
+
+    companion object {
+        private const val TAG = "FormFieldText"
     }
 }

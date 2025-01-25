@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface IProductRepository {
     fun getProducts(): Flow<Resource<List<Product>>>
     fun getProduct(id: Int): Flow<Product>
-    fun addProduct(product: Product) : Flow<Resource<Long>>
+    fun addProduct(product: Product, categories: List<Category>) : Flow<Resource<Long>>
     fun updateProduct(product: Product) : Flow<Unit>
     fun deleteProduct(id: Int) : Flow<Resource<Unit>>
 }

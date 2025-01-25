@@ -20,26 +20,17 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
 
     fun addProduct(
         product: Product,
+        categories: List<Category>,
         onLoading: () -> Unit,
         onSuccess: (Long) -> Unit,
         onError: () -> Unit
     ) {
         viewModelScope.launch {
-            productUseCase.addProduct(product).collect { resource ->
+            productUseCase.addProduct(product, categories).collect { resource ->
                 when (resource) {
-                    is Resource.Loading -> {
-                        onLoading()
-                    }
-
-                    is Resource.Success -> {
-                        if (resource.data != null) {
-                            onSuccess(resource.data)
-                        }
-                    }
-
-                    is Resource.Error -> {
-                        onError()
-                    }
+                    is Resource.Loading -> onLoading()
+                    is Resource.Success -> onSuccess(resource.data!!)
+                    is Resource.Error -> onError()
                 }
             }
         }

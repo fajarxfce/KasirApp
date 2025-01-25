@@ -52,23 +52,25 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    override fun addProduct(product: Product): Flow<Resource<Long>> {
-        Log.d(TAG, "addProduct: ${product.name}")
-        val productEntity = ProductEntity(
-            name = product.name,
-            description = product.description,
-            image = product.image,
-            sellPrice = product.sellPrice,
-            purchasePrice = product.purchasePrice,
-            stock = product.stock,
-            barcode = product.barcode
-        )
-        return productDataSource.addProduct(productEntity).map {
-            when(it) {
-                is Resource.Loading -> Resource.Loading()
-                is Resource.Success -> if (it.data != null) Resource.Success(it.data) else Resource.Error("Error: Failed to add product")
-                is Resource.Error -> Resource.Error("Error: ${it.message}")
+    override fun addProduct(product: Product, categories: List<Category>): Flow<Resource<Long>> = productDataSource.addProduct(product.toEntity()).map { resource ->
+        when (resource) {
+            is Resource.Loading -> Resource.Loading()
+            is Resource.Success -> {
+                val productId = resource.data!!
+                categories.forEach { category ->
+                    Log.d(TAG, "addProduct: $productId, ${category.id}")
+                    productDataSource.addProductCategoryCrossRef(resource.data.toInt(), category.id!!).map { result->
+                        when (result) {
+                            is Resource.Loading -> Resource.Loading()
+                            is Resource.Success -> Resource.Success(productId)
+                            is Resource.Error -> Resource.Error("Error: ${result.message}")
+                        }
+
+                    }
+                }
+                Resource.Success(productId)
             }
+            is Resource.Error -> Resource.Error("Error: ${resource.message}")
         }
     }
 
@@ -91,5 +93,18 @@ class ProductRepository @Inject constructor(
     }
         companion object {
         private const val TAG = "ProductRepository"
+    }
+
+    fun Product.toEntity(): ProductEntity {
+        return ProductEntity(
+            productId = this.id,
+            name = this.name,
+            description = this.description,
+            image = this.image,
+            sellPrice = this.sellPrice,
+            purchasePrice = this.purchasePrice,
+            stock = this.stock,
+            barcode = this.barcode
+        )
     }
 }

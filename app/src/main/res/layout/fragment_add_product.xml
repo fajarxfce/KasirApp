@@ -8,67 +8,38 @@
     android:orientation="vertical"
     tools:context=".ui.home.product.AddProductFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            style="@style/textH5Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/product_name" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/stock"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_name"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/text_input_layout_background"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/green_500"
-                android:fontFamily="@font/lato_bold"
-                android:textAlignment="viewStart"
-                android:textColor="@color/green_700"
-                android:textSize="12sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            style="@style/textH5Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/barcode" />
-
+        android:layout_height="match_parent"
+        >
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/textH5Green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/product_name" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/barcode"
-                android:layout_width="0dp"
+                android:id="@+id/name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4.2"
+                android:hint="@string/stock"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_barcode"
+                    android:id="@+id/et_name"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/text_input_layout_qr_code"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/text_input_layout_background"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/green_500"
                     android:fontFamily="@font/lato_bold"
@@ -77,127 +48,71 @@
                     android:textSize="12sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                style="@style/textH4White"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/rectangle_qr_code"
-                android:drawableLeft="@drawable/add_product"
-                android:drawablePadding="0dp"
-                android:drawableTint="@color/white"
-                app:tint="@color/white" />
-        </LinearLayout>
+            <TextView
+                style="@style/textH5Green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/barcode" />
 
-        <TextView
-            style="@style/textH5Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/stock" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/stock"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_stock"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/text_input_layout_background"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/green_500"
-                android:fontFamily="@font/lato_bold"
-                android:textAlignment="viewStart"
-                android:textColor="@color/green_700"
-                android:textSize="12sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            style="@style/textH5Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/harga_beli" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/barcode"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4.2"
+                    app:hintEnabled="false">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/purchase_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_barcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/text_input_layout_qr_code"
+                        android:drawablePadding="10dp"
+                        android:drawableTint="@color/green_500"
+                        android:fontFamily="@font/lato_bold"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/green_700"
+                        android:textSize="12sp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_purchase_price"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/text_input_layout_background"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/green_500"
-                android:fontFamily="@font/lato_bold"
-                android:textAlignment="viewStart"
-                android:textColor="@color/green_700"
-                android:textSize="12sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    style="@style/textH4White"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_qr_code"
+                    android:drawableLeft="@drawable/add_product"
+                    android:drawablePadding="0dp"
+                    android:drawableTint="@color/white"
+                    app:tint="@color/white" />
+            </LinearLayout>
 
-        <TextView
-            style="@style/textH5Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/harga_jual" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/sell_price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hintEnabled="false">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_sell_price"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/text_input_layout_background"
-                android:drawablePadding="10dp"
-                android:drawableTint="@color/green_500"
-                android:fontFamily="@font/lato_bold"
-                android:textAlignment="viewStart"
-                android:textColor="@color/green_700"
-                android:textSize="12sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            style="@style/textH5Green"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@string/kategori" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            <TextView
+                style="@style/textH5Green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/stock" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/category"
-                android:layout_width="0dp"
+                android:id="@+id/stock"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4.2"
                 app:hintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_category"
+                    android:id="@+id/et_stock"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/text_input_layout_qr_code"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/text_input_layout_background"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/green_500"
                     android:fontFamily="@font/lato_bold"
@@ -206,19 +121,111 @@
                     android:textSize="12sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/btn_category"
-                style="@style/textH4White"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/rectangle_qr_code"
-                android:drawableLeft="@drawable/add_product"
-                android:drawablePadding="0dp"
-                android:drawableTint="@color/white"
-                app:tint="@color/white" />
+            <TextView
+                style="@style/textH5Green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/harga_beli" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/purchase_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_purchase_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/text_input_layout_background"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/green_500"
+                    android:fontFamily="@font/lato_bold"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/green_700"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/textH5Green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/harga_jual" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/sell_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/et_sell_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/text_input_layout_background"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/green_500"
+                    android:fontFamily="@font/lato_bold"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/green_700"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                style="@style/textH5Green"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/kategori" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/category"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4.2"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/text_input_layout_qr_code"
+                        android:drawablePadding="10dp"
+                        android:drawableTint="@color/green_500"
+                        android:fontFamily="@font/lato_bold"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/green_700"
+                        android:textSize="12sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btn_category"
+                    style="@style/textH4White"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rectangle_qr_code"
+                    android:drawableLeft="@drawable/add_product"
+                    android:drawablePadding="0dp"
+                    android:drawableTint="@color/white"
+                    app:tint="@color/white" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+    </ScrollView>
+
 
     <Button
         android:id="@+id/btn_add_product"

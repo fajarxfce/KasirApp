@@ -25,7 +25,7 @@ interface ProductDao {
     fun getCategoriesWithProducts(): List<CategoryWithProducts>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef)
+    suspend fun insertProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef) : Long
 
     @Insert
     suspend fun insertProduct(product: ProductEntity) : Long

@@ -12,7 +12,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(private val categoryUseCase: CategoryUseCase) : ViewModel() {
+
     val categories = categoryUseCase.getCategories().asLiveData()
+    val selectedCategory: List<Category> = emptyList()
 
     fun addCategory(
         category: Category,

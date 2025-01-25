@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.fajar.template.R
+import com.fajar.template.core.domain.model.Category
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.databinding.FragmentAddProductBinding
 import com.fajar.template.helper.FormFieldText
@@ -24,7 +25,7 @@ class AddProductFragment : Fragment() {
         FragmentAddProductBinding.inflate(layoutInflater)
     }
     private val viewModel by viewModels<ProductViewModel>()
-
+    private var selectedCategories: List<Category> = emptyList()
     private val fieldName by lazy {
         FormFieldText(
             scope = lifecycleScope,
@@ -92,6 +93,14 @@ class AddProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnAddProduct.setOnClickListener { submit() }
+        binding.btnCategory.setOnClickListener {
+            // show bottomsheet category dialog
+            val dialog = CategoryBottomSheelFragment { categories ->
+                selectedCategories = categories
+                binding.etCategory.setText(categories.joinToString { it.name })
+            }
+            dialog.show(childFragmentManager, "CategoryBottomSheet")
+        }
     }
 
     private fun submit() = lifecycleScope.launch {

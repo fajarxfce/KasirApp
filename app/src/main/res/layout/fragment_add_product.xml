@@ -207,6 +207,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
+                android:id="@+id/btn_category"
                 style="@style/textH4White"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

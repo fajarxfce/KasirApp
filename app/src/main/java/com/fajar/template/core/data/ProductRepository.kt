@@ -58,19 +58,8 @@ class ProductRepository @Inject constructor(
                 is Resource.Loading -> Resource.Loading()
                 is Resource.Success -> {
                     val productId = resource.data!!
-                    categories.forEach { category ->
-                        Log.d(TAG, "addProduct: $productId, ${category.id}")
-                        productDataSource.addProductCategoryCrossRef(
-                            resource.data.toInt(),
-                            category.id!!
-                        ).map { result ->
-                            when (result) {
-                                is Resource.Loading -> Resource.Loading()
-                                is Resource.Success -> Resource.Success(productId)
-                                is Resource.Error -> Resource.Error("Error: ${result.message}")
-                            }
-
-                        }
+                    categories.forEach { anjing ->
+                        Log.d(TAG, "addProduct: ProdukID : ${resource.data.toInt()} KategoriID : ${anjing.id} Kategori Name :  ${anjing.name}")
                     }
                     Resource.Success(productId)
                 }
@@ -82,21 +71,11 @@ class ProductRepository @Inject constructor(
     override fun updateProduct(product: Product, categories: List<Category>): Flow<Resource<Unit>> {
 
         return productDataSource.updateProduct(product.toEntity()).map {
-            categories.forEach { category ->
-                Log.d(
-                    TAG,
-                    "updateProduct: product id : ${product.id}, category id : ${category.id}"
-                )
-                productDataSource.addProductCategoryCrossRef(product.id!!, category.id!!)
-                    .map { result ->
-                        when (result) {
-                            is Resource.Loading -> Resource.Loading()
-                            is Resource.Success -> Resource.Success(Unit)
-                            is Resource.Error -> Resource.Error("Error: ${result.message}")
-                        }
-                    }
+            when (it) {
+                is Resource.Loading -> Resource.Loading()
+                is Resource.Success -> Resource.Success(Unit)
+                is Resource.Error -> Resource.Error("Error: ${it.message}")
             }
-            Resource.Success(Unit)
         }
     }
 
@@ -104,12 +83,6 @@ class ProductRepository @Inject constructor(
         return productDataSource.deleteProduct(id)
     }
 
-    override fun insertProductCategoryCrossRef(
-        productId: Int,
-        categoryId: Int
-    ): Flow<Resource<Unit>> {
-        return productDataSource.addProductCategoryCrossRef(productId, categoryId)
-    }
     companion object {
         private const val TAG = "ProductRepository"
     }

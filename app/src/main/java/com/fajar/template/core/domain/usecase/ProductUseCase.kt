@@ -11,5 +11,4 @@ interface ProductUseCase {
     fun addProduct(product: Product, categories: List<Category>) : Flow<Resource<Long>>
     fun updateProduct(product: Product, categories: List<Category>) : Flow<Resource<Unit>>
     fun deleteProduct(id: Int) : Flow<Resource<Unit>>
-    fun insertProductCategoryCrossRef(productId: Int, categoryId: Int) : Flow<Resource<Unit>>
 }

@@ -114,6 +114,7 @@ class AddProductFragment : Fragment() {
         if (product != null) {
             //set action bar title
             requireActivity().title = getString(R.string.update_product)
+            activity?.actionBar?.title = getString(R.string.update_product)
             binding.etName.setText(product?.name)
             binding.etSellPrice.setText(product?.sellPrice.toString())
             binding.etPurchasePrice.setText(product?.purchasePrice.toString())
@@ -122,6 +123,7 @@ class AddProductFragment : Fragment() {
             binding.btnAddProduct.text = getString(R.string.update)
         } else {
             requireActivity().title = getString(R.string.add_product)
+            activity?.actionBar?.title = getString(R.string.add_product)
             binding.btnAddProduct.text = getString(R.string.add)
 
             //dummy data
@@ -159,7 +161,7 @@ class AddProductFragment : Fragment() {
     private fun updateProduct() {
         viewModel.updateProduct(
             Product(
-                id = product?.id!!,
+                id = product?.id,
                 name = fieldName.value ?: "",
                 sellPrice = fieldSellPrice.value?.toLong() ?: 0,
                 purchasePrice = fieldPurchasePrice.value?.toLong() ?: 0,
@@ -171,16 +173,6 @@ class AddProductFragment : Fragment() {
             selectedCategories,
             onLoading = {},
             onSuccess = {
-
-                selectedCategories.forEach { category ->
-                    viewModel.addProductCategoryCrossRef(
-                        productId = product?.id!!,
-                        categoryId = category.id!!,
-                        onLoading = {},
-                        onSuccess = {},
-                        onError = {}
-                    )
-                }
                 showToast(getString(R.string.success_add_product, fieldName.value))
                 requireActivity().onBackPressed()
             },
@@ -204,16 +196,6 @@ class AddProductFragment : Fragment() {
             selectedCategories,
             onLoading = {},
             onSuccess = {
-                Log.d(TAG, "submit: ${it}")
-                selectedCategories.forEach { category ->
-                    viewModel.addProductCategoryCrossRef(
-                        it.toInt(),
-                        category.id!!,
-                        onLoading = {},
-                        onSuccess = {},
-                        onError = {}
-                    )
-                }
                 showToast(getString(R.string.success_add_product, fieldName.value))
                 requireActivity().onBackPressed()
             },

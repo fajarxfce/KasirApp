@@ -28,11 +28,4 @@ class ProductInteractor @Inject constructor(private val repository: IProductRepo
     override fun deleteProduct(id: Int): Flow<Resource<Unit>> {
         return repository.deleteProduct(id)
     }
-
-    override fun insertProductCategoryCrossRef(
-        productId: Int,
-        categoryId: Int
-    ): Flow<Resource<Unit>> {
-        return repository.insertProductCategoryCrossRef(productId, categoryId)
-    }
 }

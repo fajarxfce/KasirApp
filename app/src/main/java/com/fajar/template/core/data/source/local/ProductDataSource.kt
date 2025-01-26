@@ -54,6 +54,10 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
         return productDao.insertProductCategoryCrossRef(productCategoryCrossRef)
     }
 
+    suspend fun deleteProductCategoryCrossRef(productId: Int) {
+        return productDao.deleteProductCategoryCrossRef(productId)
+    }
+
     companion object {
         private const val TAG = "ProductDataSource"
     }

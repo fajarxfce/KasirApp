@@ -75,7 +75,13 @@ class ProductRepository @Inject constructor(
         return productDataSource.updateProduct(product.toEntity()).map {
             when (it) {
                 is Resource.Loading -> Resource.Loading()
-                is Resource.Success -> Resource.Success(Unit)
+                is Resource.Success -> {
+                    productDataSource.deleteProductCategoryCrossRef(product.id!!)
+                    categories.forEach { category ->
+                        productDataSource.addProductCategoryCrossRef(ProductCategoryCrossRef(product.id, category.id!!))
+                    }
+                    Resource.Success(Unit)
+                }
                 is Resource.Error -> Resource.Error("Error: ${it.message}")
             }
         }

@@ -37,14 +37,16 @@ class CategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = CategoryAdapter()
+
         categoryViewModel.categories.observe(viewLifecycleOwner) {
             when(it){
                 is Resource.Loading -> {
                     Log.d(TAG, "onViewCreated: Loading")
                 }
                 is Resource.Success -> {
-                    adapter = CategoryAdapter(it.data ?: emptyList())
-                    binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                    adapter.setListProduct(it.data ?: emptyList())
                     binding.recyclerView.adapter = adapter
                 }
                 is Resource.Error -> {
@@ -52,6 +54,35 @@ class CategoryFragment : Fragment() {
                 }
             }
         }
+
+        adapter.setOnItemClickCallback(object : CategoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Category) {
+                viewModel.getProductByCategory(data.id!!).observe(viewLifecycleOwner) {
+                    when(it){
+                        is Resource.Loading -> {
+                            Log.d(TAG, "onViewCreated: Loading")
+                        }
+                        is Resource.Success -> {
+                            Log.d(TAG, "onViewCreated: Success")
+                            it.data?.forEach {
+                                Log.d(TAG, "onViewCreated: ${it.name}")
+                            }
+                        }
+                        is Resource.Error -> {
+                            Log.d(TAG, "onViewCreated: Error")
+                        }
+                    }
+                }
+            }
+        })
+
+
+        adapter.setOnItemLongClickCallback(object : CategoryAdapter.OnItemLongClickCallback {
+            override fun onItemLongClicked(data: Category) {
+                Log.d(TAG, "onItemLongClicked: ${data.name}")
+            }
+        })
+
 
         var no = 1
         binding.btnAddCategory.setOnClickListener {

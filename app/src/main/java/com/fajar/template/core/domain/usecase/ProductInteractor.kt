@@ -17,6 +17,10 @@ class ProductInteractor @Inject constructor(private val repository: IProductRepo
         return repository.getProduct(id)
     }
 
+    override fun getProductsByCategory(categoryId: Int): Flow<Resource<List<Product>>> {
+        return repository.getProductsByCategory(categoryId)
+    }
+
     override fun addProduct(product: Product, categories: List<Category>): Flow<Resource<Long>> {
         return repository.addProduct(product, categories)
     }

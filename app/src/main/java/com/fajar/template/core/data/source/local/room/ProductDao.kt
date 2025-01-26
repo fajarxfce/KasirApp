@@ -17,12 +17,8 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDao {
 
     @Transaction
-    @Query("SELECT * FROM product")
-    fun getProductsWithCategories(): List<ProductWithCategories>
-
-    @Transaction
-    @Query("SELECT * FROM categories")
-    fun getCategoriesWithProducts(): List<CategoryWithProducts>
+    @Query("SELECT * FROM categories WHERE categoryId = :categoryId")
+    fun getCategoriesWithProducts(categoryId: Int): Flow<CategoryWithProducts>
 
     @Insert
     suspend fun insertProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef)

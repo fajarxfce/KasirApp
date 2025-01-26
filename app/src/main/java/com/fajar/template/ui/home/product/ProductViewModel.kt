@@ -18,6 +18,8 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
 
     val products = productUseCase.getProducts().asLiveData()
 
+    fun getProductByCategory(categoryId: Int) = productUseCase.getProductsByCategory(categoryId).asLiveData()
+
     fun addProduct(
         product: Product,
         categories: List<Category>,

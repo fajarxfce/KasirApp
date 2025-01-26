@@ -8,6 +8,7 @@ import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.data.source.local.room.ProductDao
 import com.fajar.template.core.domain.model.Product
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -19,6 +20,17 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
         return productDao.getProducts().map { Resource.Success(it) }
     }
     fun getProductById(id: Int) = flow { emit(productDao.getProduct(id)) }
+
+    fun getProductsByCategory(categoryId: Int): Flow<Resource<List<ProductEntity>>> = flow {
+        emit(Resource.Loading())
+        try {
+            val categoryWithProducts = productDao.getCategoriesWithProducts(categoryId).first()
+            emit(Resource.Success(categoryWithProducts.products))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
     fun addProduct(product: ProductEntity) : Flow<Resource<Long>> = flow {
         emit(Resource.Loading())
         try {

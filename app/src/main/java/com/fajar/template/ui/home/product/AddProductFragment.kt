@@ -173,7 +173,7 @@ class AddProductFragment : Fragment() {
             onSuccess = {
 
                 selectedCategories.forEach { category ->
-                    viewModel.updateProductCategoryCrossRef(
+                    viewModel.addProductCategoryCrossRef(
                         productId = product?.id!!,
                         categoryId = category.id!!,
                         onLoading = {},

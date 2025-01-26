@@ -27,8 +27,8 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef)
+    @Query("DELETE FROM product_category_cross_ref WHERE productId = :productId")
+    suspend fun deleteProductCategoryCrossRef(productId: Int)
 
     @Insert
     suspend fun insertProduct(product: ProductEntity) : Long

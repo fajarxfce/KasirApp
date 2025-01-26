@@ -2,8 +2,6 @@ package com.fajar.template.core.data
 
 import android.util.Log
 import com.fajar.template.core.data.source.local.ProductDataSource
-import com.fajar.template.core.data.source.local.entity.CategoryEntity
-import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.domain.model.Category
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.core.domain.repository.IProductRepository
@@ -89,7 +87,7 @@ class ProductRepository @Inject constructor(
                     TAG,
                     "updateProduct: product id : ${product.id}, category id : ${category.id}"
                 )
-                productDataSource.updateProductCategoryCrossRef(product.id!!, category.id!!)
+                productDataSource.addProductCategoryCrossRef(product.id!!, category.id!!)
                     .map { result ->
                         when (result) {
                             is Resource.Loading -> Resource.Loading()
@@ -112,28 +110,7 @@ class ProductRepository @Inject constructor(
     ): Flow<Resource<Unit>> {
         return productDataSource.addProductCategoryCrossRef(productId, categoryId)
     }
-
-    override fun updateProductCategoryCrossRef(
-        productId: Int,
-        categoryId: Int
-    ): Flow<Resource<Unit>> {
-        return productDataSource.updateProductCategoryCrossRef(productId, categoryId)
-    }
-
     companion object {
         private const val TAG = "ProductRepository"
     }
-
-//    fun Product.toEntity(): ProductEntity {
-//        return ProductEntity(
-//            productId = this.id,
-//            name = this.name,
-//            description = this.description,
-//            image = this.image,
-//            sellPrice = this.sellPrice,
-//            purchasePrice = this.purchasePrice,
-//            stock = this.stock,
-//            barcode = this.barcode
-//        )
-//    }
 }

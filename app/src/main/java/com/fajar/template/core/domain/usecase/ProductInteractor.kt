@@ -35,11 +35,4 @@ class ProductInteractor @Inject constructor(private val repository: IProductRepo
     ): Flow<Resource<Unit>> {
         return repository.insertProductCategoryCrossRef(productId, categoryId)
     }
-
-    override fun updateProductCategoryCrossRef(
-        productId: Int,
-        categoryId: Int
-    ): Flow<Resource<Unit>> {
-        return repository.updateProductCategoryCrossRef(productId, categoryId)
-    }
 }

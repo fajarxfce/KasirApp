@@ -59,17 +59,6 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
         }
     }
 
-    fun updateProductCategoryCrossRef(productId: Int, categoryId: Int) : Flow<Resource<Unit>> = flow {
-        try {
-            emit(Resource.Loading())
-            val data =  productDao.updateProductCategoryCrossRef(ProductCategoryCrossRef(productId, categoryId))
-            emit(Resource.Success(data))
-        } catch (e: Exception) {
-            emit(Resource.Error(e.message.toString()))
-        }
-
-    }
-
     companion object {
         private const val TAG = "ProductDataSource"
     }

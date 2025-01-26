@@ -9,7 +9,7 @@ import com.fajar.template.ui.home.product.ProductManagementFragment
 class ViewPagerAdapter(fragment: ProductManagementFragment) : FragmentStateAdapter(fragment) {
 
     private val fragment = listOf(
-        ProductFragment.newInstance("",""),
+        ProductFragment.newInstance(),
         CategoryFragment.newInstance("","")
     )
 

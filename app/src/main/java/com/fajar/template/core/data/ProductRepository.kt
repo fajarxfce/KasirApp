@@ -7,6 +7,7 @@ import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.domain.model.Category
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.core.domain.repository.IProductRepository
+import com.fajar.template.helper.toEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -32,6 +33,7 @@ class ProductRepository @Inject constructor(
                         barcode = it.barcode
                     )
                 } ?: emptyList())
+
                 is Resource.Error -> Resource.Error("Error: ${resource.message}")
             }
         }
@@ -52,40 +54,52 @@ class ProductRepository @Inject constructor(
         }
     }
 
-    override fun addProduct(product: Product, categories: List<Category>): Flow<Resource<Long>> = productDataSource.addProduct(product.toEntity()).map { resource ->
-        when (resource) {
-            is Resource.Loading -> Resource.Loading()
-            is Resource.Success -> {
-                val productId = resource.data!!
-                categories.forEach { category ->
-                    Log.d(TAG, "addProduct: $productId, ${category.id}")
-                    productDataSource.addProductCategoryCrossRef(resource.data.toInt(), category.id!!).map { result->
+    override fun addProduct(product: Product, categories: List<Category>): Flow<Resource<Long>> =
+        productDataSource.addProduct(product.toEntity()).map { resource ->
+            when (resource) {
+                is Resource.Loading -> Resource.Loading()
+                is Resource.Success -> {
+                    val productId = resource.data!!
+                    categories.forEach { category ->
+                        Log.d(TAG, "addProduct: $productId, ${category.id}")
+                        productDataSource.addProductCategoryCrossRef(
+                            resource.data.toInt(),
+                            category.id!!
+                        ).map { result ->
+                            when (result) {
+                                is Resource.Loading -> Resource.Loading()
+                                is Resource.Success -> Resource.Success(productId)
+                                is Resource.Error -> Resource.Error("Error: ${result.message}")
+                            }
+
+                        }
+                    }
+                    Resource.Success(productId)
+                }
+
+                is Resource.Error -> Resource.Error("Error: ${resource.message}")
+            }
+        }
+
+    override fun updateProduct(product: Product, categories: List<Category>): Flow<Resource<Unit>> {
+
+        return productDataSource.updateProduct(product.toEntity()).map {
+            categories.forEach { category ->
+                Log.d(
+                    TAG,
+                    "updateProduct: product id : ${product.id}, category id : ${category.id}"
+                )
+                productDataSource.updateProductCategoryCrossRef(product.id!!, category.id!!)
+                    .map { result ->
                         when (result) {
                             is Resource.Loading -> Resource.Loading()
-                            is Resource.Success -> Resource.Success(productId)
+                            is Resource.Success -> Resource.Success(Unit)
                             is Resource.Error -> Resource.Error("Error: ${result.message}")
                         }
-
                     }
-                }
-                Resource.Success(productId)
             }
-            is Resource.Error -> Resource.Error("Error: ${resource.message}")
+            Resource.Success(Unit)
         }
-    }
-
-    override fun updateProduct(product: Product): Flow<Unit> {
-        val productEntity = ProductEntity(
-            productId = product.id,
-            name = product.name,
-            description = product.description,
-            image = product.image,
-            sellPrice = product.sellPrice,
-            purchasePrice = product.purchasePrice,
-            stock = product.stock,
-            barcode = product.barcode
-        )
-        return productDataSource.updateProduct(productEntity)
     }
 
     override fun deleteProduct(id: Int): Flow<Resource<Unit>> {
@@ -99,20 +113,27 @@ class ProductRepository @Inject constructor(
         return productDataSource.addProductCategoryCrossRef(productId, categoryId)
     }
 
+    override fun updateProductCategoryCrossRef(
+        productId: Int,
+        categoryId: Int
+    ): Flow<Resource<Unit>> {
+        return productDataSource.updateProductCategoryCrossRef(productId, categoryId)
+    }
+
     companion object {
         private const val TAG = "ProductRepository"
     }
 
-    fun Product.toEntity(): ProductEntity {
-        return ProductEntity(
-            productId = this.id,
-            name = this.name,
-            description = this.description,
-            image = this.image,
-            sellPrice = this.sellPrice,
-            purchasePrice = this.purchasePrice,
-            stock = this.stock,
-            barcode = this.barcode
-        )
-    }
+//    fun Product.toEntity(): ProductEntity {
+//        return ProductEntity(
+//            productId = this.id,
+//            name = this.name,
+//            description = this.description,
+//            image = this.image,
+//            sellPrice = this.sellPrice,
+//            purchasePrice = this.purchasePrice,
+//            stock = this.stock,
+//            barcode = this.barcode
+//        )
+//    }
 }

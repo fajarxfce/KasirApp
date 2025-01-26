@@ -14,13 +14,22 @@ import com.google.android.material.snackbar.Snackbar
 class ProductAdapter() :
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
+    private lateinit var onItemLongClickCallback: OnItemLongClickCallback
 
     interface OnItemClickCallback {
         fun onItemClicked(data: Product)
     }
 
+    interface OnItemLongClickCallback {
+        fun onItemLongClicked(data: Product)
+    }
+
     fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
         this.onItemClickCallback = onItemClickCallback
+    }
+
+    fun setOnItemLongClickCallback(onItemLongClickCallback: OnItemLongClickCallback) {
+        this.onItemLongClickCallback = onItemLongClickCallback
     }
 
     private val listProduct = ArrayList<Product>()
@@ -56,8 +65,11 @@ class ProductAdapter() :
                 binding.productPrice.text = product.sellPrice.toString()
                 binding.productStock.text = product.stock.toString()
                 binding.cardProduct.setOnClickListener {
-//                    Snackbar.make(it, "Product ${product.name}", Snackbar.LENGTH_SHORT).show()
                     onItemClickCallback.onItemClicked(product)
+                }
+                binding.cardProduct.setOnLongClickListener {
+                    onItemLongClickCallback.onItemLongClicked(product)
+                    true
                 }
             }
         }

@@ -67,6 +67,15 @@ class ProductFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : ProductAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Product) {
+                val arg = Bundle()
+                arg.putParcelable("product", data)
+                val action = ProductManagementFragmentDirections.actionProductManagementFragmentToAddProductFragment4(data)
+                findNavController().navigate(action)
+            }
+        })
+
+        adapter.setOnItemLongClickCallback(object : ProductAdapter.OnItemLongClickCallback {
+            override fun onItemLongClicked(data: Product) {
                 deleteProduct(data.id!!)
             }
         })
@@ -89,14 +98,9 @@ class ProductFragment : Fragment() {
 
     companion object {
 
+        fun newInstance() = ProductFragment()
+
         private const val TAG = "ProductFragment"
 
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProductFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
     }
 }

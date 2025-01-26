@@ -34,6 +34,8 @@ class AddProductFragment : Fragment() {
     private val categoryViewModel by viewModels<CategoryViewModel>()
     private var selectedCategories: List<Category> = emptyList()
 
+    private var product: Product? = null
+
     private val fieldName by lazy {
         FormFieldText(
             scope = lifecycleScope,
@@ -108,18 +110,27 @@ class AddProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.etName.setText("Product 1")
-        binding.etSellPrice.setText("10000")
-        binding.etPurchasePrice.setText("8000")
-        binding.etStock.setText("10")
-        binding.etBarcode.setText("1234567890")
+        product = arguments?.getParcelable("product")
+        if (product != null) {
+            //set action bar title
+            requireActivity().title = getString(R.string.update_product)
+            binding.etName.setText(product?.name)
+            binding.etSellPrice.setText(product?.sellPrice.toString())
+            binding.etPurchasePrice.setText(product?.purchasePrice.toString())
+            binding.etStock.setText(product?.stock.toString())
+            binding.etBarcode.setText(product?.barcode)
+            binding.btnAddProduct.text = getString(R.string.update)
+        } else {
+            requireActivity().title = getString(R.string.add_product)
+            binding.btnAddProduct.text = getString(R.string.add)
 
+            //dummy data
+            binding.etName.setText("Product 1")
+            binding.etSellPrice.setText("10000")
+            binding.etPurchasePrice.setText("8000")
+            binding.etStock.setText("10")
+            binding.etBarcode.setText("1234567890")
 
-        categoryViewModel.categories.observe(viewLifecycleOwner) {
-            it.data?.forEach { category ->
-                Log.d(TAG, "onViewCreated: ${category.name}")
-                binding.etCategory.append("${category.id}, ")
-            }
         }
 
         binding.btnAddProduct.clicks().onEach { submit() }.launchIn(lifecycleScope)
@@ -136,38 +147,80 @@ class AddProductFragment : Fragment() {
     private fun submit() = lifecycleScope.launch {
         formFields.disableALl()
         if (formFields.validateAll()) {
-            viewModel.addProduct(
-                Product(
-                    name = fieldName.value ?: "",
-                    sellPrice = fieldSellPrice.value?.toLong() ?: 0,
-                    purchasePrice = fieldPurchasePrice.value?.toLong() ?: 0,
-                    stock = fieldStock.value?.toInt() ?: 0,
-                    image = "",
-                    description = "",
-                    barcode = ""
-                ),
-                selectedCategories,
-                onLoading = {},
-                onSuccess = {
-                    Log.d(TAG, "submit: ${it}")
-                    selectedCategories.forEach { category ->
-                        viewModel.addProductCategoryCrossRef(
-                            it.toInt(),
-                            category.id!!,
-                            onLoading = {},
-                            onSuccess = {},
-                            onError = {}
-                        )
-                    }
-                    showToast(getString(R.string.success_add_product, fieldName.value))
-                    requireActivity().onBackPressed()
-                },
-                onError = {
-                    showToast(getString(R.string.failed_add_product, fieldName.value))
-                }
-            )
+            if (product != null) {
+                updateProduct()
+            } else {
+                addProduct()
+            }
         }
         formFields.enableAll()
+    }
+
+    private fun updateProduct() {
+        viewModel.updateProduct(
+            Product(
+                id = product?.id!!,
+                name = fieldName.value ?: "",
+                sellPrice = fieldSellPrice.value?.toLong() ?: 0,
+                purchasePrice = fieldPurchasePrice.value?.toLong() ?: 0,
+                stock = fieldStock.value?.toInt() ?: 0,
+                image = "",
+                description = "",
+                barcode = ""
+            ),
+            selectedCategories,
+            onLoading = {},
+            onSuccess = {
+
+                selectedCategories.forEach { category ->
+                    viewModel.updateProductCategoryCrossRef(
+                        productId = product?.id!!,
+                        categoryId = category.id!!,
+                        onLoading = {},
+                        onSuccess = {},
+                        onError = {}
+                    )
+                }
+                showToast(getString(R.string.success_add_product, fieldName.value))
+                requireActivity().onBackPressed()
+            },
+            onError = {
+                showToast(getString(R.string.failed_add_product, fieldName.value))
+            }
+        )
+    }
+
+    private fun addProduct() {
+        viewModel.addProduct(
+            Product(
+                name = fieldName.value ?: "",
+                sellPrice = fieldSellPrice.value?.toLong() ?: 0,
+                purchasePrice = fieldPurchasePrice.value?.toLong() ?: 0,
+                stock = fieldStock.value?.toInt() ?: 0,
+                image = "",
+                description = "",
+                barcode = ""
+            ),
+            selectedCategories,
+            onLoading = {},
+            onSuccess = {
+                Log.d(TAG, "submit: ${it}")
+                selectedCategories.forEach { category ->
+                    viewModel.addProductCategoryCrossRef(
+                        it.toInt(),
+                        category.id!!,
+                        onLoading = {},
+                        onSuccess = {},
+                        onError = {}
+                    )
+                }
+                showToast(getString(R.string.success_add_product, fieldName.value))
+                requireActivity().onBackPressed()
+            },
+            onError = {
+                showToast(getString(R.string.failed_add_product, fieldName.value))
+            }
+        )
     }
 
     private fun showToast(message: String) {

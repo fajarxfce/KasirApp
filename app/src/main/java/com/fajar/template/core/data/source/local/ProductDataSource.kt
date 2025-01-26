@@ -30,9 +30,14 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
         }
     }
 
-    fun updateProduct(product: ProductEntity) = flow {
-        productDao.updateProduct(product)
-        emit(Unit)
+    fun updateProduct(product: ProductEntity) : Flow<Resource<Unit>> = flow {
+        emit(Resource.Loading())
+        try {
+            productDao.updateProduct(product)
+            emit(Resource.Success(Unit))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
     }
 
     fun deleteProduct(id: Int) = flow {
@@ -46,11 +51,23 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
     }
     fun addProductCategoryCrossRef(productId: Int, categoryId: Int) : Flow<Resource<Unit>> = flow {
         try {
+            emit(Resource.Loading())
             val data =  productDao.insertProductCategoryCrossRef(ProductCategoryCrossRef(productId, categoryId))
             emit(Resource.Success(data))
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
         }
+    }
+
+    fun updateProductCategoryCrossRef(productId: Int, categoryId: Int) : Flow<Resource<Unit>> = flow {
+        try {
+            emit(Resource.Loading())
+            val data =  productDao.updateProductCategoryCrossRef(ProductCategoryCrossRef(productId, categoryId))
+            emit(Resource.Success(data))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
+
     }
 
     companion object {

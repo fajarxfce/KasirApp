@@ -69,8 +69,35 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
         onError: () -> Unit
     ) {
         viewModelScope.launch {
-            productUseCase.insertProductCategoryCrossRef(productId, categoryId).collect { resource ->
-                when (resource) {
+            productUseCase.insertProductCategoryCrossRef(productId, categoryId)
+                .collect { resource ->
+                    when (resource) {
+                        is Resource.Loading -> {
+                            onLoading()
+                        }
+
+                        is Resource.Success -> {
+                            onSuccess()
+                        }
+
+                        is Resource.Error -> {
+                            onError()
+                        }
+                    }
+                }
+        }
+    }
+
+    fun updateProduct(
+        product: Product,
+        categories: List<Category>,
+        onLoading: () -> Unit,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        viewModelScope.launch {
+            productUseCase.updateProduct(product, categories).collect {
+                when (it) {
                     is Resource.Loading -> {
                         onLoading()
                     }
@@ -84,6 +111,33 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
                     }
                 }
             }
+        }
+    }
+
+    fun updateProductCategoryCrossRef(
+        productId: Int,
+        categoryId: Int,
+        onLoading: () -> Unit,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
+        viewModelScope.launch {
+            productUseCase.updateProductCategoryCrossRef(productId, categoryId)
+                .collect { resource ->
+                    when (resource) {
+                        is Resource.Loading -> {
+                            onLoading()
+                        }
+
+                        is Resource.Success -> {
+                            onSuccess()
+                        }
+
+                        is Resource.Error -> {
+                            onError()
+                        }
+                    }
+                }
         }
     }
 

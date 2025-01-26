@@ -2,6 +2,7 @@ package com.fajar.template.core.data
 
 import android.util.Log
 import com.fajar.template.core.data.source.local.ProductDataSource
+import com.fajar.template.core.data.source.local.entity.ProductCategoryCrossRef
 import com.fajar.template.core.domain.model.Category
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.core.domain.repository.IProductRepository
@@ -60,6 +61,7 @@ class ProductRepository @Inject constructor(
                     val productId = resource.data!!
                     categories.forEach { anjing ->
                         Log.d(TAG, "addProduct: ProdukID : ${resource.data.toInt()} KategoriID : ${anjing.id} Kategori Name :  ${anjing.name}")
+                        productDataSource.addProductCategoryCrossRef(ProductCategoryCrossRef(productId.toInt(), anjing.id!!))
                     }
                     Resource.Success(productId)
                 }

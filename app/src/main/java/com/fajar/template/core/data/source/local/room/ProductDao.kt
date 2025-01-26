@@ -24,7 +24,7 @@ interface ProductDao {
     @Query("SELECT * FROM categories")
     fun getCategoriesWithProducts(): List<CategoryWithProducts>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun insertProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef)
 
     @Query("DELETE FROM product_category_cross_ref WHERE productId = :productId")

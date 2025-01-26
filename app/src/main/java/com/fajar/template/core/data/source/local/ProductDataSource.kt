@@ -6,7 +6,6 @@ import com.fajar.template.core.data.source.local.entity.CategoryEntity
 import com.fajar.template.core.data.source.local.entity.ProductCategoryCrossRef
 import com.fajar.template.core.data.source.local.entity.ProductEntity
 import com.fajar.template.core.data.source.local.room.ProductDao
-import com.fajar.template.core.domain.model.Product
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -24,8 +23,18 @@ class ProductDataSource @Inject constructor(private val productDao: ProductDao) 
     fun getProductsByCategory(categoryId: Int): Flow<Resource<List<ProductEntity>>> = flow {
         emit(Resource.Loading())
         try {
-            val categoryWithProducts = productDao.getCategoriesWithProducts(categoryId).first()
+            val categoryWithProducts = productDao.getProductsByCategoryId(categoryId).first()
             emit(Resource.Success(categoryWithProducts.products))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message.toString()))
+        }
+    }
+
+    fun getCategoriesByProductId(productId: Int): Flow<Resource<List<CategoryEntity>>> = flow {
+        emit(Resource.Loading())
+        try {
+            val productWithCategories = productDao.getCategoriesByProductId(productId).first()
+            emit(Resource.Success(productWithCategories.categories))
         } catch (e: Exception) {
             emit(Resource.Error(e.message.toString()))
         }

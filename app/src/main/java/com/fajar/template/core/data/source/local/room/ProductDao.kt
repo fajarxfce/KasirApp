@@ -2,11 +2,9 @@ package com.fajar.template.core.data.source.local.room
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.fajar.template.core.data.source.local.entity.CategoryEntity
 import com.fajar.template.core.data.source.local.entity.CategoryWithProducts
 import com.fajar.template.core.data.source.local.entity.ProductCategoryCrossRef
 import com.fajar.template.core.data.source.local.entity.ProductEntity
@@ -18,7 +16,11 @@ interface ProductDao {
 
     @Transaction
     @Query("SELECT * FROM categories WHERE categoryId = :categoryId")
-    fun getCategoriesWithProducts(categoryId: Int): Flow<CategoryWithProducts>
+    fun getProductsByCategoryId(categoryId: Int): Flow<CategoryWithProducts>
+
+    @Transaction
+    @Query("SELECT * FROM product WHERE productId = :productId")
+    fun getCategoriesByProductId(productId: Int): Flow<ProductWithCategories>
 
     @Insert
     suspend fun insertProductCategoryCrossRef(productCategoryCrossRef: ProductCategoryCrossRef)

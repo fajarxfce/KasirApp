@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.fajar.template.R
+import com.fajar.template.core.data.Resource
 import com.fajar.template.core.domain.model.Category
 import com.fajar.template.core.domain.model.Product
 import com.fajar.template.databinding.FragmentAddProductBinding
@@ -121,6 +122,7 @@ class AddProductFragment : Fragment() {
             binding.etStock.setText(product?.stock.toString())
             binding.etBarcode.setText(product?.barcode)
             binding.btnAddProduct.text = getString(R.string.update)
+            getCategoryByProduct(product?.id ?: 0)
         } else {
             requireActivity().title = getString(R.string.add_product)
             activity?.actionBar?.title = getString(R.string.add_product)
@@ -156,6 +158,25 @@ class AddProductFragment : Fragment() {
             }
         }
         formFields.enableAll()
+    }
+
+    private fun getCategoryByProduct(productId: Int) {
+        viewModel.getCategoryByProduct(productId).observe(viewLifecycleOwner) {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.d(TAG, "onViewCreated: Loading")
+                }
+                is Resource.Success -> {
+                    it.data?.forEach {
+                        Log.d(TAG, "onViewCreated: ${it.id} ${it.name}")
+                    }
+                    Log.d(TAG, "onViewCreated: Success")
+                }
+                is Resource.Error -> {
+                    Log.d(TAG, "onViewCreated: Error")
+                }
+            }
+        }
     }
 
     private fun updateProduct() {

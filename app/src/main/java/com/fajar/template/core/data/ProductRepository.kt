@@ -75,6 +75,22 @@ class ProductRepository @Inject constructor(
         }
     }
 
+    override fun getCategoryByProduct(productId: Int): Flow<Resource<List<Category>>> {
+        return productDataSource.getCategoriesByProductId(productId).map { resource ->
+            when (resource) {
+                is Resource.Loading -> Resource.Loading()
+                is Resource.Success -> Resource.Success(resource.data?.map {
+                    Category(
+                        id = it.categoryId,
+                        name = it.name
+                    )
+                } ?: emptyList())
+
+                is Resource.Error -> Resource.Error("Error: ${resource.message}")
+            }
+        }
+    }
+
     override fun addProduct(product: Product, categories: List<Category>): Flow<Resource<Long>> =
         productDataSource.addProduct(product.toEntity()).map { resource ->
             when (resource) {

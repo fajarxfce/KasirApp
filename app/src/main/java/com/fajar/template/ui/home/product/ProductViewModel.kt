@@ -20,6 +20,8 @@ class ProductViewModel @Inject constructor(private val productUseCase: ProductUs
 
     fun getProductByCategory(categoryId: Int) = productUseCase.getProductsByCategory(categoryId).asLiveData()
 
+    fun getCategoryByProduct(productId: Int) = productUseCase.getCategoryByProduct(productId).asLiveData()
+
     fun addProduct(
         product: Product,
         categories: List<Category>,

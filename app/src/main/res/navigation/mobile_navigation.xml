@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_productManagementFragment_to_addProductFragment4"
             app:destination="@id/addProductFragment" />
+        <action
+            android:id="@+id/action_productManagementFragment_to_productByCategoryFragment"
+            app:destination="@id/productByCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addProductFragment"
@@ -65,4 +68,9 @@
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>
+    <fragment
+        android:id="@+id/productByCategoryFragment"
+        android:name="com.fajar.template.ui.home.product.category.ProductByCategoryFragment"
+        android:label="fragment_product_by_category"
+        tools:layout="@layout/fragment_product_by_category" />
 </navigation>

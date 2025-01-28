@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fajar.template.R
 import com.fajar.template.core.adapter.CategoryAdapter
@@ -57,22 +58,10 @@ class CategoryFragment : Fragment() {
 
         adapter.setOnItemClickCallback(object : CategoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Category) {
-                viewModel.getProductByCategory(data.id!!).observe(viewLifecycleOwner) {
-                    when(it){
-                        is Resource.Loading -> {
-                            Log.d(TAG, "onViewCreated: Loading")
-                        }
-                        is Resource.Success -> {
-                            Log.d(TAG, "onViewCreated: Success")
-                            it.data?.forEach {
-                                Log.d(TAG, "onViewCreated: ${it.name}")
-                            }
-                        }
-                        is Resource.Error -> {
-                            Log.d(TAG, "onViewCreated: Error")
-                        }
-                    }
-                }
+                val args = Bundle()
+                args.putParcelable("category", data)
+                requireActivity().findNavController(R.id.nav_host_fragment_activity_main)
+                    .navigate(R.id.action_productManagementFragment_to_productByCategoryFragment, args)
             }
         })
 
